@@ -71,11 +71,11 @@ const yourGaleryLinks: MenuItem[] = [
 	},
 ]
 
-export default function Sidebar() {
+ const Sidebar = ()=> {
 	const pathname = usePathname();
 
 	return (
-		<aside className="min-h-screen w-64 shrink-0 border-r border-white/10 bg-black px-4 py-6 text-white bg-[#131313]">
+		<aside className="min-h-screen w-64 border-r border-white/10  px-4 py-6">
 			<nav className="flex flex-col gap-4">
             <div>
 
@@ -125,3 +125,5 @@ export default function Sidebar() {
 		</aside>
 	);
 }
+
+export default Sidebar

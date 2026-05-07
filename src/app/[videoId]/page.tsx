@@ -12,10 +12,7 @@ function VideoPage() {
 		title,
 		thumbnailUrl,
 		duration,
-		channelName,
 		channelAvatarUrl,
-		subscribers,
-		description,
 		commentsCount,
 		tags = ["Design", "Tech", "Motion", "Cinematography"],
 		nextUp,
@@ -76,9 +73,7 @@ function VideoPage() {
 									className="rounded-full"
 								/>
 								Add a public comment...
-							</div>
-
-			{comments ? <CommentsList comments={comments} />:<p className="text-center text-sm text-white/50">
+							</div>	{comments ? <CommentsList comments={comments} />:<p className="text-center text-sm text-white/50">
 								No comments yet. Be the first to comment!
 							</p>
 			}

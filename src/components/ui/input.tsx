@@ -1,59 +1,19 @@
-"use client";
+import * as React from "react"
 
-import Image, { StaticImageData } from "next/image";
+import { cn } from "@/lib/utils"
 
-import { InputHTMLAttributes, useState } from "react";
-
-import EyeIcon from "../../assets/icons/eye.png";
-import EyeClosedIcon from "../../assets/icons/eye-closed.png";
-
-interface IInputProps {
-  label: string;
-  icon?: StaticImageData;
-  placeholder: string;
-  error?: string;
+function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+  return (
+    <input
+      type={type}
+      data-slot="input"
+      className={cn(
+        "h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
+        className
+      )}
+      {...props}
+    />
+  )
 }
 
-export const Input = ({
-  label,
-  icon,
-  placeholder,
-  error,
-  ...rest
-}: IInputProps & InputHTMLAttributes<HTMLInputElement>) => {
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleTogglePassword = () => {
-    setShowPassword((oldState) => !oldState);
-  };
-
-  return (
-    <div className={`flex flex-col`}>
-      <p className="text-xs text-left text-secondary uppercase font-medium">
-        {label}
-      </p>
-      <div className="bg-bg-input mt-2 flex items-center gap-3 py-3 px-4 rounded-lg">
-        {icon && <Image src={icon} alt={label} />}
-        <input
-          placeholder={placeholder}
-          type={
-            rest.type === "password" && showPassword
-              ? "text"
-              : rest.type || "text"
-          }
-          {...rest}
-        />
-        {rest.type === "password" && (
-          <button type="button" onClick={handleTogglePassword}>
-            {showPassword ? (
-              <Image src={EyeClosedIcon} alt="Hide password" />
-            ) : (
-              <Image src={EyeIcon} alt="Show password" />
-            )}
-          </button>
-        )}
-      </div>
-      {error && <p className="text-xs text-left text-red-300 mt-1">{error}</p>}
-    </div>
-  );
-};
+export { Input }

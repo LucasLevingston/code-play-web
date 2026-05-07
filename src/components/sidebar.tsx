@@ -13,7 +13,7 @@ interface MenuItem {
 }
 
 const defaultLinks: MenuItem[] = [
-	{ href: "/dashboard", label: "Home", icon: <Home width={18} height={18}/> },
+	{ href: "/", label: "Home", icon: <Home width={18} height={18}/> },
 	{
 		href: "/subscriptions",
 		label: "Inscrições",
@@ -27,14 +27,12 @@ const defaultLinks: MenuItem[] = [
 		),
 	},
 	{
-		href: "/create",
+		href: "/video/create",
 		label: "Criar",
 		icon: (
 			<Image alt="create icon" src="/createIcon.svg" width={16} height={16} />
 		),
-	},
-	
-	
+	},	
 ];
 
 const yourGaleryLinks: MenuItem[] = [

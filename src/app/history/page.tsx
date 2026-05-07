@@ -2,10 +2,10 @@
 
 import { useMemo, useState } from "react";
 import { VideoList } from "@/components/VideoList";
-import { getVideosMock } from "@/utils/mocks/get-video-mock";
+import { useGetHistoryVideos } from "@/hooks/useGetHistoryVideos";
 
 export default function HistoryPage() {
-	const [videos] = useState(getVideosMock(15));
+	const { data: videos = [] } = useGetHistoryVideos();
 	const [removedIds, setRemovedIds] = useState<string[]>([]);
 
 	const filteredVideos = useMemo(

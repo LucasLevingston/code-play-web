@@ -2,10 +2,10 @@
 
 import { useMemo, useState } from "react";
 import { VideoList } from "@/components/VideoList";
-import { getVideosMock } from "@/utils/mocks/get-video-mock";
+import { useGetLikedVideos } from "@/hooks/useGetLikedVideos";
 
 export default function LikedVideosPage() {
-	const [videos] = useState(getVideosMock(12));
+	const { data: videos = [] } = useGetLikedVideos();
 	const [removedIds, setRemovedIds] = useState<string[]>([]);
 
 	const filteredVideos = useMemo(

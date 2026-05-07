@@ -2,11 +2,11 @@
 
 import { useMemo, useState } from "react";
 import { VideoList } from "@/components/VideoList";
-import { getVideosMock } from "@/utils/mocks/get-video-mock";
+import { useGetWatchLaterVideos } from "@/hooks/useGetWatchLaterVideos";
 
 export default function WatchLaterPage() {
-	const [videos] = useState(getVideosMock(8));
 	const [removedIds, setRemovedIds] = useState<string[]>([]);
+	const { data: videos = [] } = useGetWatchLaterVideos();
 
 	const filteredVideos = useMemo(
 		() => videos.filter((v) => !removedIds.includes(v.id)),

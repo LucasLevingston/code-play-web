@@ -1,3 +1,6 @@
+"use client";
+
+
 import type { ElementType } from "react";
 import { cn } from "@/lib/utils";
 import { getIconByFormName } from "@/utils/get-icon-by-form-name";

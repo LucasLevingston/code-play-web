@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { getUserMock } from '../utils/mocks/get-user-mock'
 
 interface User {
    id: string
@@ -25,12 +24,13 @@ export const useUserStore = create<UserStore>((set) => ({
    getToken: () => {
       return "mock-token"
    },
-   loadUser: () => {
+   loadUser: async () => {
       set({ isLoading: true })
-      setTimeout(() => {
-         const userData = getUserMock()
-         set({ user: userData, isLoading: false })
-      }, 500)
+      try {
+         set({ user: null, isLoading: false })
+      } catch {
+         set({ isLoading: false })
+      }
    },
 
    clearUser: () => {

@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useGetSubscriptions } from "@/hooks/useGetSubscriptions";
 
 interface Channel {
 	id: string;
@@ -13,52 +14,19 @@ interface Channel {
 	isSubscribed: boolean;
 }
 
-const mockChannels: Channel[] = [
-	{
-		id: "1",
-		name: "Tech Masters",
-		avatar: "https://i.pravatar.cc/300?img=1",
-		subscribers: 150000,
-		isSubscribed: true,
-	},
-	{
-		id: "2",
-		name: "Dev World",
-		avatar: "https://i.pravatar.cc/300?img=2",
-		subscribers: 200000,
-		isSubscribed: true,
-	},
-	{
-		id: "3",
-		name: "Web Concepts",
-		avatar: "https://i.pravatar.cc/300?img=3",
-		subscribers: 75000,
-		isSubscribed: true,
-	},
-	{
-		id: "4",
-		name: "Code Daily",
-		avatar: "https://i.pravatar.cc/300?img=4",
-		subscribers: 320000,
-		isSubscribed: true,
-	},
-	{
-		id: "5",
-		name: "Design Pro",
-		avatar: "https://i.pravatar.cc/300?img=5",
-		subscribers: 98000,
-		isSubscribed: true,
-	},
-];
-
 export default function SubscriptionsPage() {
-	const [channels, setChannels] = useState(mockChannels);
+	const { data: apiChannels = [] } = useGetSubscriptions();
+	const [channels, setChannels] = useState<Channel[]>([]);
+
+	useEffect(() => {
+		if (apiChannels.length > 0) {
+			setChannels(apiChannels);
+		}
+	}, [apiChannels]);
 
 	const handleUnsubscribe = (id: string) => {
 		setChannels((prev) =>
-			prev.map((ch) =>
-				ch.id === id ? { ...ch, isSubscribed: false } : ch,
-			),
+			prev.map((ch) => (ch.id === id ? { ...ch, isSubscribed: false } : ch)),
 		);
 	};
 
@@ -69,14 +37,17 @@ export default function SubscriptionsPage() {
 			<div className="mb-8">
 				<h1 className="text-3xl font-bold text-white">Inscrições</h1>
 				<p className="mt-2 text-sm text-zinc-400">
-					{subscribedChannels.length} canal{subscribedChannels.length !== 1 ? "is" : ""}
+					{subscribedChannels.length} canal
+					{subscribedChannels.length !== 1 ? "is" : ""}
 				</p>
 			</div>
 
 			{subscribedChannels.length === 0 ? (
 				<div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed border-white/10 py-12">
 					<div className="text-center">
-						<p className="text-lg font-semibold text-white">Nenhum canal inscrito</p>
+						<p className="text-lg font-semibold text-white">
+							Nenhum canal inscrito
+						</p>
 						<p className="mt-1 text-sm text-zinc-400">
 							Inscreva-se em canais para ver seus vídeos aqui
 						</p>

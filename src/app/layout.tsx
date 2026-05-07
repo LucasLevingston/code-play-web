@@ -41,7 +41,7 @@ export default function RootLayout({
 						<header className="border-b border-white/10">
 							<Header />
 						</header>
-						<main className="flex-1 flex overflow-auto ">
+						<main className="flex-1 flex overflow-auto bg-gradient-to-br from-black via-zinc-700 to-black w-full p-4">
 					<Sidebar />
               {children}
               </main>

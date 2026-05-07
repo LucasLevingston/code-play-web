@@ -1,13 +1,21 @@
+"use client"
 import clsx from "clsx";
 
 import { Eye, MoreHorizontal, PlayCircle } from "lucide-react";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 import { CommentsList } from "@/components/list-comments";
 import VideoDetailsComponent from "@/components/VideoDetailsComponent";
-import { getVideoMock } from "@/utils/mocks/get-video-mock";
+import { useGetVideoById } from "@/hooks/useGetVideoById";
 
 function VideoPage() {
-	const video = getVideoMock();
+	const params = useParams();
+	const videoId = params?.videoId as string;
+	const { data: video } = useGetVideoById(videoId);
+
+	if (!video) {
+		return <div className="text-white">Carregando...</div>;
+	}
 	const {
 		title,
 		thumbnailUrl,

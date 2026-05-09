@@ -1,12 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/config/api";
-import type { videoType } from "@/types/video";
+import type { Video } from "@/types/video";
+
+function getErrorStatus(error: unknown) {
+   if (typeof error === "object" && error !== null && "response" in error) {
+      const response = (error as { response?: { status?: number } }).response;
+      return response?.status;
+   }
+
+   return undefined;
+}
 
 interface GetDashboardVideosParams {
    limit?: number;
 }
 
-async function fetchDashboardVideos(params: GetDashboardVideosParams = {}): Promise<videoType[]> {
+async function fetchDashboardVideos(
+   params: GetDashboardVideosParams = {},
+): Promise<Video[]> {
    try {
       const { data } = await api.get("/videos", {
          params: {
@@ -14,8 +25,12 @@ async function fetchDashboardVideos(params: GetDashboardVideosParams = {}): Prom
          },
       });
       return data;
-   } catch {
-      throw new Error("Erro ao buscar vídeos do dashboard");
+   } catch (error: unknown) {
+      if (getErrorStatus(error) === 401) {
+         throw new Error("Erro ao buscar vídeos do dashboard");
+      }
+
+      return [];
    }
 }
 

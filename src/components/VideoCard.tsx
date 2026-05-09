@@ -1,14 +1,14 @@
 import clsx from "clsx";
 import Image from "next/image";
-import type { videoType } from "@/types/video";
+import type { Video } from "@/types/video";
 
 interface VideoCardProps {
-	video: videoType;
+	video: Video;
 	className?: string;
 }
 
 export function VideoCard({
-	video: { thumbnailUrl, duration, title, channelName, views },
+	video: { thumbnailUrl, duration, title, user, views },
 	className,
 }: VideoCardProps) {
 	return (
@@ -46,7 +46,7 @@ export function VideoCard({
 						"text-zinc-400 mt-1 flex items-center gap-1",
 					)}
 				>
-					<span>{channelName}</span>
+					<span>{user.name}</span>
 					<span>•</span>
 					<span>{views}</span>
 				</div>

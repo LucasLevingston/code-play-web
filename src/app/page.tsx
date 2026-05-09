@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+import { Loading } from "@/components/custom/loading";
 import { LandingPage } from "@/components/LandingPage";
 import { VideoCard } from "@/components/VideoCard";
 import { useGetDashboardVideos } from "@/hooks/useGetDashboardVideos";
@@ -10,13 +11,13 @@ import { VideoSegment } from "@/types/video";
 import { fromNow } from "@/utils/dayjs";
 import { formatNumber } from "@/utils/format-number";
 
-const HomePage = () => {
+const Dashboard = () => {
 	const token = useAuthStore((state) => state.token);
 	const [mounted, setMounted] = useState(false);
 	const [selectedSegment, setSelectedSegment] = useState<VideoSegment | "All">(
 		"All",
 	);
-	const { data: videos = [] } = useGetDashboardVideos();
+	const { data: videos = [], isLoading } = useGetDashboardVideos();
 
 	useEffect(() => {
 		setMounted(true);
@@ -26,45 +27,48 @@ const HomePage = () => {
 		if (selectedSegment === "All") {
 			return videos;
 		}
-
-		return videos.filter((video) => video.VideoSegment === selectedSegment);
+		
+		return videos.filter((video) => video.segment === selectedSegment);
 	}, [selectedSegment, videos]);
+	if (isLoading) {
+		return <Loading />;
+	}
 	if (!mounted) return null;
 	if (!token) return <LandingPage />;
 
-
-
 	const categories = [
-		"All",
-		VideoSegment.BACKEND,
-		VideoSegment.FRONTEND,
-		VideoSegment.FULLSTACK,
-		VideoSegment.ARTIFICIAL_INTELLIGENCE,
-		VideoSegment.DATA_SCIENCE,
-		VideoSegment.DEVOPS,
+		{ value: "All", label: "All" },
+		{ value: VideoSegment.BACKEND, label: "Backend" },
+		{ value: VideoSegment.FRONTEND, label: "Frontend" },
+		{ value: VideoSegment.FULLSTACK, label: "Fullstack" },
+		{
+			value: VideoSegment.ARTIFICIAL_INTELLIGENCE,
+			label: "Inteligência Artificial",
+		},
+		{ value: VideoSegment.DATA_SCIENCE, label: "Data Science" },
+		{ value: VideoSegment.DEVOPS, label: "DevOps" },
 	] as const;
-
 
 	const [featured, sideFirst, sideSecond, ...gridVideos] =
 		filteredVideos.length >= 3 ? filteredVideos : videos;
 	const visibleGridVideos =
 		gridVideos.length > 0 ? gridVideos : videos.slice(3);
-
+console.log({ videos, filteredVideos, featured, sideFirst, sideSecond, gridVideos });
 	return (
 		<div className="px-3 py-8 lg:px-5">
 			<div className="mb-6 flex gap-2 overflow-x-auto pb-2">
-				{categories.map((category) => (
+				{categories?.map((category) => (
 					<button
-						key={category}
+						key={category.value}
 						type="button"
-						onClick={() => setSelectedSegment(category)}
+						onClick={() => setSelectedSegment(category.value)}
 						className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-medium transition ${
-							selectedSegment === category
+							selectedSegment === category.value
 								? "bg-[#8f7cff] text-black"
 								: "bg-white/5 text-white/80 hover:bg-white/10"
 						}`}
 					>
-						{category}
+						{category.label}
 					</button>
 				))}
 			</div>
@@ -86,21 +90,21 @@ const HomePage = () => {
 					</div>
 
 					<div className="mt-3 flex gap-3">
+						{/* {featured.user.avatarUrl &&
 						<Image
-							src={featured.channelAvatarUrl}
-							alt={featured.channelName}
-							width={36}
-							height={36}
-							className="h-9 w-9 rounded-full"
+						src={featured.user.avatarUrl || "/default-avatar.png"}
+						alt={featured.user.name}
+						width={36}
+						height={36}
+						className="h-9 w-9 rounded-full"
 						/>
+					} */}
 
 						<div>
 							<h2 className="line-clamp-2 text-3xl font-extrabold tracking-tight text-white">
 								{featured.title}
 							</h2>
-							<p className="mt-1 text-sm text-zinc-300">
-								{featured.channelName}
-							</p>
+							<p className="mt-1 text-sm text-zinc-300">{featured.user.name}</p>
 							<p className="mt-0.5 text-sm text-zinc-500">
 								{formatNumber(featured.views)} views •{" "}
 								{fromNow(featured.publishedAt)}
@@ -128,7 +132,7 @@ const HomePage = () => {
 								{video.title}
 							</h3>
 							<p className="mt-1 text-sm text-zinc-400">
-								{video.channelName} • {formatNumber(video.views)} views
+								{video.user.username} • {formatNumber(video.views)} views
 							</p>
 						</article>
 					))}
@@ -136,7 +140,7 @@ const HomePage = () => {
 			</section>
 
 			<section className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-				{visibleGridVideos.slice(0, 8).map((video) => (
+				{visibleGridVideos?.slice(0, 8).map((video) => (
 					<VideoCard key={video.id} video={video} />
 				))}
 			</section>
@@ -144,4 +148,4 @@ const HomePage = () => {
 	);
 };
 
-export default HomePage;
+export default Dashboard;

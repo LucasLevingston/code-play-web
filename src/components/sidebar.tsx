@@ -73,7 +73,7 @@ const yourGaleryLinks: MenuItem[] = [
 	const pathname = usePathname();
 
 	return (
-		<aside className="min-h-screen w-64 border-r border-white/10  px-4 py-6">
+		<aside className="w-64 border-r dark:border-white/10 border-black/10  px-4 py-4">
 			<nav className="flex flex-col gap-4">
             <div>
 
@@ -88,16 +88,19 @@ const yourGaleryLinks: MenuItem[] = [
                   className={`rounded-lg px-3 py-2 text-sm transition-colors flex items-center gap-3 ${
                      isActive
                      ? "text-[#FF8B9B]"
-                     : "text-[#ADAAAA]"
+                     : "dark:text-[#ADAAAA] text-black"
                   }`}
 						>
+							<p className="text-black dark:text-white">
+								
                      {item.icon}
+							</p>
 							{item.label}
 						</Link>
 					);
 				})}
             </div>
-            <p className="text-[#ADAAAA]">Sua Galeria</p>
+            <p className="">Sua Galeria</p>
             <div>
 
 				{yourGaleryLinks.map((item) => {
@@ -110,7 +113,7 @@ const yourGaleryLinks: MenuItem[] = [
                   className={`rounded-lg px-3 py-2 text-sm transition-colors flex items-center gap-3 ${
                      isActive
                      ? "text-[#FF8B9B]"
-                     : "text-[#ADAAAA]"
+                     : "dark:text-[#ADAAAA] text-black"
 							}`}
                      >
                      {item.icon}

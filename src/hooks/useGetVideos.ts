@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/config/api";
-import type { videoType } from "@/types/video";
+import type { Video } from "@/types/video";
 
 interface GetVideosParams {
    page?: number;
@@ -8,7 +8,7 @@ interface GetVideosParams {
    segment?: string;
 }
 
-async function fetchVideos(params: GetVideosParams): Promise<videoType[]> {
+async function fetchVideos(params: GetVideosParams): Promise<Video[]> {
    try {
       const { data } = await api.get("/videos", { params });
       return data;

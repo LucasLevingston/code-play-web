@@ -14,7 +14,7 @@ export const registerSchema = z
       name: z.string().min(1, { message: "Nome é obrigatório" }),
       age: z.string().min(1, { message: "Idade é obrigatória" }),
       email: z.string().email({ message: "E-mail inválido" }),
-      password: z.string().min(6, { message: "Senha deve ter no mínimo 6 caracteres" }),
+      password: z.string().min(8, { message: "Senha deve ter no mínimo 8 caracteres" }),
       confirmPassword: z.string().min(6, { message: "Confirmação de senha é obrigatória" }),
    })
    .refine((data) => data.password === data.confirmPassword, {

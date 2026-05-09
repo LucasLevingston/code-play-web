@@ -4,12 +4,12 @@ import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import type { videoType } from "@/types/video";
+import type { Video } from "@/types/video";
 import { fromNow } from "@/utils/dayjs";
 import { formatNumber } from "@/utils/format-number";
 
 interface VideoListProps {
-  videos: videoType[];
+  videos: Video[];
 	isEmpty?: boolean;
 	emptyMessage?: string;
 	onRemove?: (id: string) => void;
@@ -41,7 +41,7 @@ export function VideoList({
 			{videos.map((video) => (
 				<Link
 					key={video.id}
-					href={`/${video.id}`}
+					href={`/video/${video.id}`}
 					className="group flex gap-4 rounded-lg border border-white/5 p-4 transition hover:bg-white/5"
 				>
 					<div className="relative h-24 w-40 overflow-hidden rounded">
@@ -61,7 +61,7 @@ export function VideoList({
 							<h3 className="line-clamp-2 font-semibold text-white group-hover:text-[#FF8B9B]">
 								{video.title}
 							</h3>
-							<p className="mt-1 text-sm text-zinc-400">{video.channelName}</p>
+							<p className="mt-1 text-sm text-zinc-400">{video.user.username}</p>
 						</div>
 
 						<div className="flex items-center justify-between">

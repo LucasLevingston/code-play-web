@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/config/api";
-import type { videoType } from "@/types/video";
+import type { Video } from "@/types/video";
 
 interface GetHistoryVideosParams {
    limit?: number;
 }
 
-async function fetchHistoryVideos(params: GetHistoryVideosParams = {}): Promise<videoType[]> {
+async function fetchHistoryVideos(params: GetHistoryVideosParams = {}): Promise<Video[]> {
    try {
       const { data } = await api.get("/videos/history", {
          params: {

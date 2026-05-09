@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/config/api";
-import type { videoType } from "@/types/video";
+import type { Video } from "@/types/video";
 
 interface GetWatchLaterVideosParams {
    limit?: number;
 }
 
-async function fetchWatchLaterVideos(params: GetWatchLaterVideosParams = {}): Promise<videoType[]> {
+async function fetchWatchLaterVideos(params: GetWatchLaterVideosParams = {}): Promise<Video[]> {
    try {
       const { data } = await api.get("/videos/watch-later", {
          params: {

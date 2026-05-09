@@ -27,15 +27,15 @@ export default function LoginPage() {
 	async function onSubmit(data: LoginInput) {
 		try {
 			await login(data.email, data.password);
-			router.push("/dashboard");
-		} catch (err) {
+			router.push("/");
+		} catch {
 			form.setError("root", { message: "Erro ao efetuar login" });
 		}
 	}
 
 	return (
-		<div className="flex flex-col items-center justify-center h-[80vh] gap-6">
-			<Logo />
+		<div className="flex-1 flex flex-col items-center justify-center">
+			<Logo className="mb-8" />
 			<Card>
 				<CardHeader >
 					<CardTitle >Entrar</CardTitle>
@@ -63,7 +63,7 @@ export default function LoginPage() {
 							/>
 							<a
 								href="/recover"
-								className="block hover:text-white/80 text-sm text-right text-blue-200"
+								className="block hover:text-white/80 text-sm text-right dark:text-blue-200 text-blue-600"
 							>
 								Esqueci minha senha
 							</a>
@@ -73,7 +73,7 @@ export default function LoginPage() {
 							</CustomSubmitButton>
 
 							<div className="flex gap-1 justify-center text-sm">
-								<span className="text-white/60">Não tem conta? </span>
+								<span className="dark:text-white/60 text-black/60">Não tem conta? </span>
 								<a href="/register" className="text-[#A68CFF] hover:underline"> 
 									Registre-se
 								</a>

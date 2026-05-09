@@ -1,29 +1,32 @@
-"use client"
+"use client";
 import clsx from "clsx";
 
 import { Eye, MoreHorizontal, PlayCircle } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import { Loading } from "@/components/custom/loading";
 import { CommentsList } from "@/components/list-comments";
 import VideoDetailsComponent from "@/components/VideoDetailsComponent";
 import { useGetVideoById } from "@/hooks/useGetVideoById";
+import { useGetVideos } from "@/hooks/useGetVideos";
 
 function VideoPage() {
 	const params = useParams();
-	const videoId = params?.videoId as string;
+	const videoId = params?.Id as string;
 	const { data: video } = useGetVideoById(videoId);
+	const { data: allVideos = [] } = useGetVideos(video?.segment ? { segment: video.segment } : {});
 
 	if (!video) {
-		return <div className="text-white">Carregando...</div>;
+		return <Loading />;
 	}
+	const nextUp = allVideos.filter(v => v.id !== videoId).slice(0, 5);
+
 	const {
 		title,
 		thumbnailUrl,
 		duration,
-		channelAvatarUrl,
-		commentsCount,
+
 		tags = ["Design", "Tech", "Motion", "Cinematography"],
-		nextUp,
 		comments,
 	} = video;
 	return (
@@ -55,11 +58,10 @@ function VideoPage() {
 
 					<VideoDetailsComponent video={video} />
 
-
 					<div className="rounded-[1.5rem] border border-white/5 bg-white/[0.035] p-4 sm:p-5">
 						<div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 pb-4">
 							<h3 className="text-lg font-semibold text-white">
-								{commentsCount} Comments
+								{comments.length ?? 0} Comments
 							</h3>
 
 							<button
@@ -74,17 +76,21 @@ function VideoPage() {
 						<div className="mt-4 space-y-4">
 							<div className="flex items-center gap-3 rounded-2xl border border-white/5 bg-black/20 px-4 py-3 text-sm text-white/40">
 								<Image
-									src={channelAvatarUrl}
+									src={video.user.avatarUrl || "/default-avatar.png"}
 									alt="Seu avatar"
 									width={32}
 									height={32}
 									className="rounded-full"
 								/>
 								Add a public comment...
-							</div>	{comments ? <CommentsList comments={comments} />:<p className="text-center text-sm text-white/50">
-								No comments yet. Be the first to comment!
-							</p>
-			}
+							</div>
+							{comments ? (
+								<CommentsList comments={comments} />
+							) : (
+								<p className="text-center text-sm text-white/50">
+									No comments yet. Be the first to comment!
+								</p>
+							)}
 						</div>
 					</div>
 				</div>
@@ -124,7 +130,7 @@ function VideoPage() {
 											{video.title}
 										</h4>
 										<p className="mt-1 text-xs text-white/45">
-											{video.channelName}
+											{video.user.username}
 										</p>
 										<p className="mt-1 flex items-center gap-1 text-xs text-white/45">
 											<Eye className="h-3.5 w-3.5" />

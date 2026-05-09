@@ -5,44 +5,39 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useGetSubscriptions } from "@/hooks/useGetSubscriptions";
+import { useUnsubscribe } from "@/hooks/useVideoActions";
 
 interface Channel {
 	id: string;
 	name: string;
 	avatar: string;
 	subscribers: number;
-	isSubscribed: boolean;
 }
 
 export default function SubscriptionsPage() {
 	const { data: apiChannels = [] } = useGetSubscriptions();
+	const unsubscribe = useUnsubscribe();
 	const [channels, setChannels] = useState<Channel[]>([]);
 
 	useEffect(() => {
-		if (apiChannels.length > 0) {
-			setChannels(apiChannels);
-		}
+		setChannels(apiChannels);
 	}, [apiChannels]);
 
-	const handleUnsubscribe = (id: string) => {
-		setChannels((prev) =>
-			prev.map((ch) => (ch.id === id ? { ...ch, isSubscribed: false } : ch)),
-		);
+	const handleUnsubscribe = async (id: string) => {
+		await unsubscribe.mutateAsync(id);
+		setChannels((prev) => prev.filter((channel) => channel.id !== id));
 	};
-
-	const subscribedChannels = channels.filter((ch) => ch.isSubscribed);
 
 	return (
 		<div className="px-3 py-8 lg:px-5">
 			<div className="mb-8">
 				<h1 className="text-3xl font-bold text-white">Inscrições</h1>
 				<p className="mt-2 text-sm text-zinc-400">
-					{subscribedChannels.length} canal
-					{subscribedChannels.length !== 1 ? "is" : ""}
+					{channels.length} canal{channels.length !== 1 ? "es" : ""}
 				</p>
 			</div>
 
-			{subscribedChannels.length === 0 ? (
+			{channels.length === 0 ? (
 				<div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed border-white/10 py-12">
 					<div className="text-center">
 						<p className="text-lg font-semibold text-white">
@@ -55,7 +50,7 @@ export default function SubscriptionsPage() {
 				</div>
 			) : (
 				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-					{subscribedChannels.map((channel) => (
+					{channels.map((channel) => (
 						<div
 							key={channel.id}
 							className="flex flex-col items-center gap-4 rounded-lg border border-white/5 p-6 transition hover:bg-white/5"

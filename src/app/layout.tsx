@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
+import { Header } from "@/components/header";
 import QueryProvider from "@/components/QueryProvider";
 import Sidebar from "@/components/sidebar";
-import { Header } from "../components/header";
 import { ToastProvider } from "../components/ToastProvider";
 
 const geistSans = Geist({
@@ -37,16 +37,14 @@ export default function RootLayout({
 					<QueryProvider>
 						<ToastProvider />
 						<div className="flex min-h-screen w-full">
-					<div className="flex min-w-0 flex-1 flex-col">
-						<header className="border-b border-white/10">
-							<Header />
-						</header>
-						<main className="flex-1 flex overflow-auto bg-gradient-to-br from-black via-zinc-700 to-black w-full p-4">
-					<Sidebar />
-              {children}
-              </main>
-					</div>
-				</div>
+							<div className="flex min-w-0 flex-1 flex-col">
+									<Header />
+								<main className="flex-1 flex overflow-auto bg-gradient-to-br from-white via-neutral-300 to-white w-full dark:bg-gradient-to-br dark:from-black dark:via-zinc-700 dark:to-black">
+									<Sidebar />
+									{children}
+								</main>
+							</div>
+						</div>
 					</QueryProvider>
 				</ThemeProvider>
 			</body>

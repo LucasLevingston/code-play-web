@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/config/api";
-import type { videoType } from "@/types/video";
+import type { Video } from "@/types/video";
 
 interface GetLikedVideosParams {
    limit?: number;
 }
 
-async function fetchLikedVideos(params: GetLikedVideosParams = {}): Promise<videoType[]> {
+async function fetchLikedVideos(params: GetLikedVideosParams = {}): Promise<Video[]> {
    try {
       const { data } = await api.get("/videos/liked", {
          params: {

@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	Bookmark,
 	CornerDownLeft,
@@ -7,25 +9,28 @@ import {
 	ThumbsUp,
 } from "lucide-react";
 import Image from "next/image";
-import type { videoType } from "../types/video";
+import { useSubscribe } from "@/hooks/useVideoActions";
+import type { Video } from "../types/video";
 import { fromNow } from "../utils/dayjs";
 import { formatNumber } from "../utils/format-number";
 
 type videoDetailsProps = {
-   video: videoType
+   video: Video
 }
 
 export function VideoDetailsComponent({
 	video:{title,
 	views,
 	publishedAt,
-	channelName,
-	channelAvatarUrl,
-	subscribers,
+	user,
+	
+	
 	description,
    
 	likes,}
 }: videoDetailsProps) {
+	const subscribe = useSubscribe();
+
 	return (
 		<div className="min-w-0 space-y-5">
 			<div className="space-y-4">
@@ -48,7 +53,7 @@ export function VideoDetailsComponent({
 						className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/12"
 					>
 						<ThumbsUp className="h-4 w-4" />
-						{formatNumber(likes || 0)}
+						{formatNumber(likes.length || 0)}
 					</button>
 					<button
 						type="button"
@@ -86,8 +91,8 @@ export function VideoDetailsComponent({
 				<div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 					<div className="flex items-center gap-4">
 						<Image
-							src={channelAvatarUrl}
-							alt={channelName}
+							src={user.avatarUrl || "/default-avatar.png"}
+							alt={user.name}
 							width={56}
 							height={56}
 							className="rounded-full ring-2 ring-white/10"
@@ -95,17 +100,19 @@ export function VideoDetailsComponent({
 
 						<div>
 							<h2 className="text-lg font-semibold text-white">
-								{channelName}
+								{user.name}
 							</h2>
-							<p className="text-sm text-white/55">{formatNumber(subscribers)} subscribers</p>
+							<p className="text-sm text-white/55">{formatNumber(user.subscribers.length || 0)} subscribers</p>
 						</div>
 					</div>
 
 					<button
 						type="button"
+						onClick={() => subscribe.mutate(user.id)}
+						disabled={subscribe.isPending}
 						className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-background transition hover:brightness-110"
 					>
-						Subscribe
+						{subscribe.isPending ? "Subscribing..." : "Subscribe"}
 					</button>
 				</div>
 			</div>

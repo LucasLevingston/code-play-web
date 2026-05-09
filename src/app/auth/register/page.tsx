@@ -89,7 +89,7 @@ export default function Register() {
 
 							<CustomSubmitButton
 								disabled={form.formState.isSubmitting}
-								className="w-full bg-[#FF8B9B]"
+								
 							>
 								{form.formState.isSubmitting ? "Processando..." : "Registrar"}
 							</CustomSubmitButton>
@@ -98,7 +98,7 @@ export default function Register() {
 								Já possui uma conta?{" "}
 								<Link
 									href="/auth/login"
-									className="text-[#FF8B9B] hover:underline"
+									className="text-primary hover:underline"
 								>
 									Faça seu login
 								</Link>

@@ -1,15 +1,18 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes } from "../routes";
-import { useAuthStore } from "./stores/useAuthStore";
 
-export async function proxy(request: NextRequest) {
-   const { nextUrl } = request;
+import { authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes } from "../routes";
+
+export function proxy(request: NextRequest) {
+   const { nextUrl, cookies } = request;
+
    const pathname = nextUrl.pathname;
 
-   const token = useAuthStore.getState().getToken();
+   const token = cookies.get("token")?.value;
+
    const isLoggedIn = !!token;
 
    const isPublicRoute = publicRoutes.includes(pathname);
+
    const isAuthRoute = authRoutes.includes(pathname);
 
    if (isAuthRoute && isLoggedIn) {
@@ -17,12 +20,12 @@ export async function proxy(request: NextRequest) {
    }
 
    if (!isLoggedIn && !isPublicRoute && !isAuthRoute) {
-      return NextResponse.redirect(new URL("/", nextUrl));
+      return NextResponse.redirect(new URL("/auth/login", nextUrl));
    }
 
    return NextResponse.next();
 }
 
 export const config = {
-   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)", "/api/:path*"],
+   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };

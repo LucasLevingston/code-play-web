@@ -33,7 +33,7 @@ export default function RecoverPage() {
 
 	return (
 		<div className="flex items-center justify-center h-[80vh]">
-			<div className="w-[420px] p-8 bg-[#0b0b0b] rounded space-y-6">
+			<div className="w-[420px] p-8 bg-black rounded space-y-6">
 				<div className="text-center">
 					<h2 className="text-2xl font-bold text-white mb-2">
 						Recuperar senha
@@ -53,7 +53,7 @@ export default function RecoverPage() {
 							placeholder="seu@exemplo.com"
 						/>
 
-						<CustomSubmitButton className="w-full bg-[#FF8B9B] hover:bg-[#ff7a8a] text-black font-semibold py-2 rounded">
+						<CustomSubmitButton className="">
 							{form.formState.isSubmitting ? "Enviando..." : "Enviar"}
 						</CustomSubmitButton>
 

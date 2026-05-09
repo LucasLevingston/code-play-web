@@ -14,7 +14,7 @@ export const CustomButton = ({
     <Button
       {...props}
       className={cn(
-        "h-14 w-full w-[366px] rounded-full bg-gradient-to-r from-[#FF8B9B] to-[#FF7389] font-bold text-background transition-all duration-200 hover:brightness-110 hover:shadow-lg hover:shadow-[#FF8B9B]/50",
+        "h-14 w-full w-[366px] rounded-full bg-gradient-to-r from-primary to-secondary font-bold text-background transition-all duration-200 hover:brightness-110 hover:shadow-lg hover:shadow-primary/50 hover:text-black hover:dark:text-white",
         className,
       )}
     >

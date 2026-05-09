@@ -29,6 +29,7 @@ export function CustomSubmitButton({
 
 			disabled={isSubmitting || !isDirty || disabled}
 			type="submit"
+			className="w-full"
 		>
 			{form?.formState.isSubmitting || isSubmitting ? (
 				<>

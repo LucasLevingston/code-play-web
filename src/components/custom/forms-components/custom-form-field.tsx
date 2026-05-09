@@ -68,7 +68,7 @@ export default function CustomFormField({
 			render={({ field }) => (
 				<FormItem className={className}>
 					{fieldType !== FormFieldType.CHECKBOX && finalLabel && (
-						<FormLabel className="text-[#A68CFF] font-bold">
+						<FormLabel className="text-tertiary font-bold">
 							{finalLabel}
 						</FormLabel>
 					)}
@@ -120,7 +120,7 @@ export default function CustomFormField({
 							<Textarea
 								placeholder={finalPlaceholder}
 								disabled={disabled}
-								className="bg-[#111] border-[#262626] text-white placeholder:text-white/40 focus-visible:ring-[#FF8B9B] focus-visible:border-[#FF8B9B] min-h-32"
+								className="bg-[#111] border-[#262626] text-white placeholder:text-white/40 focus-visible:ring-primary focus-visible:border-primary min-h-32"
 								{...field}
 							/>
 						</FormControl>
@@ -131,7 +131,7 @@ export default function CustomFormField({
 							<div className="relative">
 								<select
 									disabled={disabled}
-									className="bg-[#111] border border-[#262626] text-white placeholder:text-white/40 focus-visible:ring-[#FF8B9B] focus-visible:border-[#FF8B9B] rounded px-4 py-2 w-full appearance-none"
+									className="bg-[#111] border border-[#262626] text-white placeholder:text-white/40 focus-visible:ring-primary focus-visible:border-primary rounded px-4 py-2 w-full appearance-none"
 									{...field}
 								>
 									<option value="">{finalPlaceholder}</option>

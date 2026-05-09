@@ -74,7 +74,7 @@ export default function LoginPage() {
 
 							<div className="flex gap-1 justify-center text-sm">
 								<span className="dark:text-white/60 text-black/60">Não tem conta? </span>
-								<a href="/register" className="text-[#A68CFF] hover:underline"> 
+								<a href="/register" className="text-tertiary hover:underline"> 
 									Registre-se
 								</a>
 							</div>

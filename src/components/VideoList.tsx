@@ -58,7 +58,7 @@ export function VideoList({
 
 					<div className="flex flex-1 flex-col justify-between">
 						<div>
-							<h3 className="line-clamp-2 font-semibold text-white group-hover:text-[#FF8B9B]">
+							<h3 className="line-clamp-2 font-semibold text-white group-hover:text-primary">
 								{video.title}
 							</h3>
 							<p className="mt-1 text-sm text-zinc-400">{video.user.username}</p>

@@ -29,8 +29,8 @@ export const CustomInput = ({
         "dark:border-white/10 dark:bg-[#1F1F1F]",
 
         
-        "focus-within:border-[#FF8B9B]/60",
-        "focus-within:ring-4 focus-within:ring-[#FF8B9B]/10",
+        "focus-within:border-primary/60",
+        "focus-within:ring-4 focus-within:ring-primary/10",
       )}
     >
       {(Icon || FormIcon) && (
@@ -47,7 +47,7 @@ export const CustomInput = ({
                 "dark:text-white/40",
 
                 
-                "group-focus-within:text-[#FF8B9B]",
+                "group-focus-within:text-primary",
               )}
             />
           )}

@@ -33,7 +33,9 @@
   --color-bg-button: #201f1f;
 
 --color-primary: #FF8B9B;
---secondary: oklch(0.9 0.05 300);
+--color-secondary: #FF7389;
+
+--color-tertiary: #A68CFF;
 }
 
 body {

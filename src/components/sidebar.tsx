@@ -13,9 +13,9 @@ interface MenuItem {
 }
 
 const defaultLinks: MenuItem[] = [
-	{ href: "/", label: "Home", icon: <Home width={18} height={18}/> },
+	{ href: "/dashboard", label: "Home", icon: <Home width={18} height={18}/> },
 	{
-		href: "/subscriptions",
+		href: "/dashboard/subscriptions",
 		label: "Inscrições",
 		icon: (
 			<Image
@@ -27,7 +27,7 @@ const defaultLinks: MenuItem[] = [
 		),
 	},
 	{
-		href: "/video/create",
+		href: "/dashboard/video/create",
 		label: "Criar",
 		icon: (
 			<Image alt="create icon" src="/createIcon.svg" width={16} height={16} />
@@ -37,14 +37,14 @@ const defaultLinks: MenuItem[] = [
 
 const yourGaleryLinks: MenuItem[] = [
    {
-		href: "/history",
+		href: "/dashboard/history",
 		label: "Histórico",
 		icon: (
 			<Image alt="history icon" src="/historyIcon.svg" width={16} height={16} />
 		),
 	},
    {
-		href: "/liked-videos",
+		href: "/dashboard/liked-videos",
 		label: "Vídeos Curtidos",
 		icon: (
 			<Image
@@ -56,7 +56,7 @@ const yourGaleryLinks: MenuItem[] = [
 		),
 	},
 	{
-		href: "/watch-later",
+		href: "/dashboard/watch-later",
 		label: "Assistir Depois",
 		icon: (
 			<Image
@@ -87,7 +87,7 @@ const yourGaleryLinks: MenuItem[] = [
                   href={item.href}
                   className={`rounded-lg px-3 py-2 text-sm transition-colors flex items-center gap-3 ${
                      isActive
-                     ? "text-[#FF8B9B]"
+                     ? "text-primary"
                      : "dark:text-[#ADAAAA] text-black"
                   }`}
 						>
@@ -112,7 +112,7 @@ const yourGaleryLinks: MenuItem[] = [
                   href={item.href}
                   className={`rounded-lg px-3 py-2 text-sm transition-colors flex items-center gap-3 ${
                      isActive
-                     ? "text-[#FF8B9B]"
+                     ? "text-primary"
                      : "dark:text-[#ADAAAA] text-black"
 							}`}
                      >

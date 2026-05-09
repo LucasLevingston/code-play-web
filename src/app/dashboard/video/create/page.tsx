@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, Globe, Link2, Lock, UploadCloud } from "lucide-react";
+import { Check, UploadCloud } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,6 +18,7 @@ import { Form, FormLabel } from "@/components/ui/form";
 import { Progress } from "@/components/ui/progress";
 import { useCreateVideo } from "@/hooks/useCreateVideo";
 import { cn } from "@/lib/utils";
+import { visibilityOptions } from "@/types/visibility-options";
 
 const uploadSchema = z.object({
 	title: z
@@ -224,67 +225,36 @@ export default function CreatePage() {
 							</FormLabel>
 
 							<div className="grid grid-cols-3 gap-3">
-								<CustomButton
-									type="button"
-									onClick={() => form.setValue("visibility", "PUBLIC")}
-									className={cn(
-										"h-24 min-w-0 flex-col gap-2 rounded-2xl",
-										form.getValues("visibility") === "PUBLIC"
-											? ""
-											: "bg-zinc-900 text-zinc-400 hover:bg-zinc-800",
-									)}
-								>
-									<Globe className="h-5 w-5" />
+								
+								{
+	visibilityOptions.map((option) => {
+		const Icon = option.icon;
 
-									<span className="text-xs font-semibold uppercase tracking-wider">
-										Public
-									</span>
-								</CustomButton>
+		return (
+			<CustomButton
+				key={option.value}
+				type="button"
+				onClick={() => form.setValue("visibility", option.value)}
+				className={cn(
+					"h-24 w-32 flex-col gap-2 rounded-2xl",
+					form.getValues("visibility") === option.value
+						? ""
+						: "bg-zinc-900 text-zinc-400 ",
+				)}
+			>
+				<Icon className="h-5 w-5" />
 
-								<CustomButton
-									type="button"
-									onClick={() => form.setValue("visibility", "UNLISTED")}
-									className={cn(
-										"h-24 min-w-0 flex-col gap-2 rounded-2xl",
-										form.getValues("visibility") === "UNLISTED"
-											? ""
-											: "bg-zinc-900 text-zinc-400 hover:bg-zinc-800",
-									)}
-								>
-									<Link2 className="h-5 w-5" />
-
-									<span className="text-xs font-semibold uppercase tracking-wider">
-										Unlisted
-									</span>
-								</CustomButton>
-
-								<CustomButton
-									type="button"
-									onClick={() => form.setValue("visibility", "PRIVATE")}
-									className={cn(
-										"h-24 min-w-0 flex-col gap-2 rounded-2xl",
-										form.getValues("visibility") === "PRIVATE"
-											? ""
-											: "bg-zinc-900 text-zinc-400 hover:bg-zinc-800",
-									)}
-								>
-									<Lock className="h-5 w-5" />
-
-									<span className="text-xs font-semibold uppercase tracking-wider">
-										Private
-									</span>
-								</CustomButton>
+				<span className="font-semibold uppercase ">
+					{option.label}
+				</span>
+			</CustomButton>
+		);
+	})
+}
 							</div>
 
 							<div className="flex gap-4 pt-4">
-								<CustomSubmitButton
-									className="h-14 flex-1 bg-zinc-900 hover:bg-zinc-800"
-									form={form}
-								>
-									Save Draft
-								</CustomSubmitButton>
-
-								<CustomSubmitButton className="h-14 flex-1" form={form}>
+								<CustomSubmitButton form={form}>
 									Publish Video
 								</CustomSubmitButton>
 							</div>

@@ -16,7 +16,10 @@ const nextConfig: NextConfig = {
         hostname: "avatars.githubusercontent.com",
       },
 
-
+      {
+        protocol: "https",
+        hostname: "cdn.jsdelivr.net",
+      },
     ],
   },
 };

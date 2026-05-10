@@ -1,27 +1,27 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "picsum.photos",
-      },
-      {
-        protocol: "https",
-        hostname: "i.pravatar.cc",
-      },
-      {
-        protocol: "https",
-        hostname: "avatars.githubusercontent.com",
-      },
+	images: {
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "picsum.photos",
+			},
+			{
+				protocol: "https",
+				hostname: "i.pravatar.cc",
+			},
+			{
+				protocol: "https",
+				hostname: "avatars.githubusercontent.com",
+			},
 
-      {
-        protocol: "https",
-        hostname: "cdn.jsdelivr.net",
-      },
-    ],
-  },
+			{
+				protocol: "https",
+				hostname: "cdn.jsdelivr.net",
+			},
+		],
+	},
 };
 
 export default nextConfig;

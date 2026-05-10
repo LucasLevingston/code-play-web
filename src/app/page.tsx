@@ -6,7 +6,7 @@ import { CustomButton } from "@/components/custom/custom-button";
 
 function HomePage() {
 	return (
-			<div className="flex flex-col items-center justify-center w-full">
+		<div className="flex flex-col items-center justify-center w-full">
 			<div className="relative  py-12">
 				<div className="max-w-7xl mx-auto">
 					<div className="absolute top-20 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl opacity-20" />
@@ -15,17 +15,13 @@ function HomePage() {
 					<div className="relative z-10 text-center mb-16">
 						<div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border  mb-6">
 							<Sparkles className="w-4 h-4 text-primary" />
-							<span className="text-sm">
-								Bem-vindo ao CodePlay
-							</span>
+							<span className="text-sm">Bem-vindo ao CodePlay</span>
 						</div>
 
 						<h1 className="text-6xl md:text-7xl font-black mb-6 tracking-tight leading-tight">
 							Compartilhe sua
 							<br />
-							<span className="text-primary">
-								visão técnica
-							</span>
+							<span className="text-primary">visão técnica</span>
 						</h1>
 
 						<p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
@@ -77,7 +73,7 @@ function HomePage() {
 							>
 								<feature.icon className="w-10 h-10 text-primary mb-4 group-hover:scale-110 transition" />
 								<h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-								<p >{feature.description}</p>
+								<p>{feature.description}</p>
 							</div>
 						))}
 					</div>
@@ -106,9 +102,7 @@ function HomePage() {
 						conhecimento no CodePlay
 					</p>
 					<Link href="/auth/register">
-						<CustomButton>
-							Criar Conta Gratuita
-						</CustomButton>
+						<CustomButton>Criar Conta Gratuita</CustomButton>
 					</Link>
 				</div>
 			</div>

@@ -15,19 +15,18 @@ import { fromNow } from "../utils/dayjs";
 import { formatNumber } from "../utils/format-number";
 
 type videoDetailsProps = {
-   video: Video
-}
+	video: Video;
+};
 
 export function VideoDetailsComponent({
-	video:{title,
-	views,
-	publishedAt,
-	user,
-	
-	
-	description,
-   
-	likes,}
+	video: {
+		title,
+		views,
+		publishedAt,
+		user,
+		description,
+		likes,
+	},
 }: videoDetailsProps) {
 	const subscribe = useSubscribe();
 
@@ -38,53 +37,51 @@ export function VideoDetailsComponent({
 					<h1 className="max-w-4xl text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl">
 						{title}
 					</h1>
-
-					
 				</div>
-            <div className="justify-between flex">
-               <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-white/65">
-						<span className="font-medium text-white/90">{formatNumber(views)}</span>
+				<div className="justify-between flex">
+					<div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-white/65">
+						<span className="font-medium text-white/90">
+							{formatNumber(views)}
+						</span>
 						<span>•</span>
 						<span>{fromNow(publishedAt)}</span>
 					</div>
-<div className="flex flex-wrap items-center gap-3">
-					<button
-						type="button"
-						className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/12"
-					>
-						<ThumbsUp className="h-4 w-4" />
-						{formatNumber(likes.length || 0)}
-					</button>
-					<button
-						type="button"
-						className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/12"
-					>
-						<ThumbsDown className="h-4 w-4" />
-					</button>
-					<button
-						type="button"
-						className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/12"
-					>
-						<Share2 className="h-4 w-4" />
-						Share
-					</button>
-					<button
-						type="button"
-						className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/12"
-					>
-						<Bookmark className="h-4 w-4" />
-						Save
-					</button>
-					<button
-						type="button"
-						className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/8 text-white transition hover:bg-white/12"
-					>
-						<Ellipsis className="h-4 w-4" />
-					</button>
+					<div className="flex flex-wrap items-center gap-3">
+						<button
+							type="button"
+							className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/12"
+						>
+							<ThumbsUp className="h-4 w-4" />
+							{formatNumber(likes.length || 0)}
+						</button>
+						<button
+							type="button"
+							className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/12"
+						>
+							<ThumbsDown className="h-4 w-4" />
+						</button>
+						<button
+							type="button"
+							className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/12"
+						>
+							<Share2 className="h-4 w-4" />
+							Share
+						</button>
+						<button
+							type="button"
+							className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/12"
+						>
+							<Bookmark className="h-4 w-4" />
+							Save
+						</button>
+						<button
+							type="button"
+							className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/8 text-white transition hover:bg-white/12"
+						>
+							<Ellipsis className="h-4 w-4" />
+						</button>
+					</div>
 				</div>
-            </div>
-
-				
 			</div>
 
 			<div className="rounded-[1.5rem] border border-white/5 bg-white/[0.04] p-4 shadow-[0_12px_40px_rgba(0,0,0,0.2)]">
@@ -99,10 +96,10 @@ export function VideoDetailsComponent({
 						/>
 
 						<div>
-							<h2 className="text-lg font-semibold text-white">
-								{user.name}
-							</h2>
-							<p className="text-sm text-white/55">{formatNumber(user.subscribers.length || 0)} subscribers</p>
+							<h2 className="text-lg font-semibold text-white">{user.name}</h2>
+							<p className="text-sm text-white/55">
+								{formatNumber(user.subscribers.length || 0)} subscribers
+							</p>
 						</div>
 					</div>
 

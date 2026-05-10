@@ -87,10 +87,7 @@ export default function Register() {
 								label="Confirmar Senha"
 							/>
 
-							<CustomSubmitButton
-								disabled={form.formState.isSubmitting}
-								
-							>
+							<CustomSubmitButton disabled={form.formState.isSubmitting}>
 								{form.formState.isSubmitting ? "Processando..." : "Registrar"}
 							</CustomSubmitButton>
 

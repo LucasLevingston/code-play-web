@@ -14,18 +14,20 @@ function VideoPage() {
 	const params = useParams();
 	const videoId = params?.Id as string;
 	const { data: video } = useGetVideoById(videoId);
-	const { data: allVideos = [] } = useGetVideos(video?.segment ? { segment: video.segment } : {});
+	const { data: allVideos = [] } = useGetVideos(
+		video?.segment ? { segment: video.segment } : {},
+	);
+	console.log(video)
 
 	if (!video) {
 		return <Loading />;
 	}
-	const nextUp = allVideos.filter(v => v.id !== videoId).slice(0, 5);
+	const nextUp = allVideos.filter((v) => v.id !== videoId).slice(0, 5);
 
 	const {
 		title,
 		thumbnailUrl,
 		duration,
-
 		tags = ["Design", "Tech", "Motion", "Cinematography"],
 		comments,
 	} = video;

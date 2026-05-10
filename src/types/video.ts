@@ -1,90 +1,90 @@
-import type { User } from "./user"
+import type { User } from "./user";
 
 export enum VideoSegment {
-   BACKEND = "BACKEND",
-   FRONTEND = "FRONTEND",
-   FULLSTACK = "FULLSTACK",
-   ARTIFICIAL_INTELLIGENCE = "ARTIFICIAL_INTELLIGENCE",
-   DATA_SCIENCE = "DATA_SCIENCE",
-   DEVOPS = "DEVOPS",
+	BACKEND = "BACKEND",
+	FRONTEND = "FRONTEND",
+	FULLSTACK = "FULLSTACK",
+	ARTIFICIAL_INTELLIGENCE = "ARTIFICIAL_INTELLIGENCE",
+	DATA_SCIENCE = "DATA_SCIENCE",
+	DEVOPS = "DEVOPS",
 }
 
 export enum Visibility {
-   PUBLIC = "PUBLIC",
-   UNLISTED = "UNLISTED",
-   PRIVATE = "PRIVATE",
+	PUBLIC = "PUBLIC",
+	UNLISTED = "UNLISTED",
+	PRIVATE = "PRIVATE",
 }
 
 export enum Like {
-   VIDEO = "VIDEO",
-   COMMENT = "COMMENT",
+	VIDEO = "VIDEO",
+	COMMENT = "COMMENT",
 }
 
 export type Subscription = {
-   id: string
+	id: string;
 
-   subscriberId: string
-   subscriber: User
+	subscriberId: string;
+	subscriber: User;
 
-   subscribedToId: string
-   subscribedTo: User
+	subscribedToId: string;
+	subscribedTo: User;
 
-   createdAt: Date
-}
+	createdAt: Date;
+};
 
 export type Video = {
-   id: string
-   title: string
-   description?: string | null
-   videoUrl: string
-   thumbnailUrl: string
-   duration: string
-   views: number
-   visibility: Visibility
+	id: string;
+	title: string;
+	description?: string | null;
+	videoUrl: string;
+	thumbnailUrl: string;
+	duration: string;
+	views: number;
+	visibility: Visibility;
 
-   segment: VideoSegment
+	segment: VideoSegment;
 
-   tags: string[]
+	tags: string[];
 
-   userId: string
-   user: User
+	userId: string;
+	user: User;
 
-   comments: Comment[]
+	comments: Comment[];
 
-   likes: LikeModel[]
+	likes: LikeModel[];
 
-   publishedAt: Date
-   createdAt: Date
-}
+	publishedAt: Date;
+	createdAt: Date;
+};
 
 export type Comment = {
-   id: string
-   content: string
+	id: string;
+	content: string;
 
-   authorId: string
-   author: User
+	authorId: string;
+	author: User;
 
-   videoId: string
-   video: Video
+	videoId: string;
+	video: Video;
 
-   likes: LikeModel[]
+	likes: LikeModel[];
 
-   createdAt: Date
-}
+	createdAt: Date;
+};
 
 export type LikeModel = {
-   id: string
+	id: string;
 
-   type: Like
+	type: Like;
 
-   userId: string
-   user: User
+	userId: string;
+	user: User;
 
-   videoId?: string | null
-   video?: Video | null
+	videoId?: string | null;
+	video?: Video | null;
 
-   commentId?: string | null
-   comment?: Comment | null
+	commentId?: string | null;
+	comment?: Comment | null;
 
-   createdAt: Date
-}
+	createdAt: Date;
+};

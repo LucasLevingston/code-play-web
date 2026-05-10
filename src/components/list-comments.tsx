@@ -4,10 +4,10 @@ import type { Comment } from "@/types/video";
 import { fromNow } from "@/utils/dayjs";
 
 type commentsListType = {
-   comments: Comment[]
-}
+	comments: Comment[];
+};
 
-export const CommentsList = ({comments}:commentsListType) => {
+export const CommentsList = ({ comments }: commentsListType) => {
 	return (
 		<div className="space-y-4">
 			{comments?.map((comment) => (
@@ -28,7 +28,9 @@ export const CommentsList = ({comments}:commentsListType) => {
 							<span className="font-medium text-white">
 								{comment.author.name}
 							</span>
-							<span className="text-white/45">{fromNow(comment.createdAt)}</span>
+							<span className="text-white/45">
+								{fromNow(comment.createdAt)}
+							</span>
 						</div>
 
 						<p className="mt-2 text-sm leading-6 text-white/72">

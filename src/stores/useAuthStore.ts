@@ -4,115 +4,115 @@ import { api } from "@/config/api";
 import { useUserStore } from "./useUserStore";
 
 function getStoredToken() {
-   if (typeof window === "undefined") {
-      return null;
-   }
+	if (typeof window === "undefined") {
+		return null;
+	}
 
-   return localStorage.getItem("authToken");
+	return localStorage.getItem("authToken");
 }
 
 function setStoredToken(token: string | null) {
-   if (typeof window === "undefined") {
-      return;
-   }
+	if (typeof window === "undefined") {
+		return;
+	}
 
-   if (token) {
-      localStorage.setItem("authToken", token);
+	if (token) {
+		localStorage.setItem("authToken", token);
 
-      Cookies.set("token", token);
+		Cookies.set("token", token);
 
-      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+		api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      return;
-   }
+		return;
+	}
 
-   localStorage.removeItem("authToken");
+	localStorage.removeItem("authToken");
 
-   Cookies.remove("token");
+	Cookies.remove("token");
 
-   delete api.defaults.headers.common["Authorization"];
+	delete api.defaults.headers.common["Authorization"];
 }
 
 interface AuthState {
-   token: string | null;
-   isLoading: boolean;
-   getToken: () => string | null;
-   login: (email: string, password: string) => Promise<void>;
-   register: (
-      name: string,
-      email: string,
-      password: string,
-      age: number,
-   ) => Promise<void>;
-   recover: (email: string) => Promise<void>;
-   logout: () => void;
+	token: string | null;
+	isLoading: boolean;
+	getToken: () => string | null;
+	login: (email: string, password: string) => Promise<void>;
+	register: (
+		name: string,
+		email: string,
+		password: string,
+		age: number,
+	) => Promise<void>;
+	recover: (email: string) => Promise<void>;
+	logout: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
-   token: getStoredToken(),
-   isLoading: false,
+	token: getStoredToken(),
+	isLoading: false,
 
-   getToken: () => get().token,
+	getToken: () => get().token,
 
-   login: async (email, password) => {
-      set({ isLoading: true });
+	login: async (email, password) => {
+		set({ isLoading: true });
 
-      try {
-         const resp = await api.post("/auth/login", {
-            email,
-            password,
-         });
+		try {
+			const { data } = await api.post("/auth/login", {
+				email,
+				password,
+			});
+			console.log(data)
+			const token = data?.token ?? null;
 
-         const token = resp.data?.token ?? null;
+			set({ token });
 
-         set({ token });
+			setStoredToken(token);
 
-         setStoredToken(token);
+			set({ isLoading: false });
+		} catch (err) {
+			set({ isLoading: false });
 
-         set({ isLoading: false });
-      } catch (err) {
-         set({ isLoading: false });
+			throw err;
+		}
+	},
 
-         throw err;
-      }
-   },
+	register: async (name, email, password, age) => {
+		set({ isLoading: true });
 
-   register: async (name, email, password, age) => {
-      set({ isLoading: true });
+		try {
+			const resp = await api.post("/auth/register", {
+				name,
+				email,
+				password,
+				age,
+			});
 
-      try {
-         const resp = await api.post("/auth/register", {
-            name,
-            email,
-            password,
-            age,
-         });
+			const token = resp.data?.token ?? null;
 
-         const token = resp.data?.token ?? null;
+			set({ token });
 
-         set({ token });
+			setStoredToken(token);
 
-         setStoredToken(token);
+			set({ isLoading: false });
+		} catch (err) {
+			set({ isLoading: false });
 
-         set({ isLoading: false });
-      } catch (err) {
-         set({ isLoading: false });
+			throw err;
+		}
+	},
 
-         throw err;
-      }
-   },
+	recover: async () => {
+		return Promise.resolve();
+	},
 
-   recover: async () => {
-      return Promise.resolve();
-   },
+	logout: () => {
+		const { clearUser } = useUserStore.getState();
 
-   logout: () => {
-      const { clearUser } = useUserStore.getState();
+		set({ token: null });
 
-      set({ token: null });
+		clearUser();
 
-      clearUser();
-
-      setStoredToken(null);
-   },
+		setStoredToken(null);
+	},
 }));

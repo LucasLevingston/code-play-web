@@ -8,7 +8,13 @@ import CustomFormField, {
 } from "@/components/custom/forms-components/custom-form-field";
 import { CustomSubmitButton } from "@/components/custom/forms-components/custom-submit-button";
 import { Logo } from "@/components/logo";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { type LoginInput, loginSchema } from "@/schemas/auth";
 import { useAuthStore } from "@/stores/useAuthStore";
@@ -37,11 +43,9 @@ export default function LoginPage() {
 		<div className="flex-1 flex flex-col items-center justify-center">
 			<Logo className="mb-8" />
 			<Card>
-				<CardHeader >
-					<CardTitle >Entrar</CardTitle>
-					<CardDescription >
-						Bem-vindo de volta ao CodePlay
-					</CardDescription>
+				<CardHeader>
+					<CardTitle>Entrar</CardTitle>
+					<CardDescription>Bem-vindo de volta ao CodePlay</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<Form {...form}>
@@ -73,12 +77,13 @@ export default function LoginPage() {
 							</CustomSubmitButton>
 
 							<div className="flex gap-1 justify-center text-sm">
-								<span className="dark:text-white/60 text-black/60">Não tem conta? </span>
-								<a href="/register" className="text-tertiary hover:underline"> 
+								<span className="dark:text-white/60 text-black/60">
+									Não tem conta?{" "}
+								</span>
+								<a href="/register" className="text-tertiary hover:underline">
 									Registre-se
 								</a>
 							</div>
-
 						</form>
 					</Form>
 				</CardContent>

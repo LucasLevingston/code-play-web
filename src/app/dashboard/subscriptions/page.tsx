@@ -16,6 +16,7 @@ interface Channel {
 
 export default function SubscriptionsPage() {
 	const { data: apiChannels = [] } = useGetSubscriptions();
+	console.log(apiChannels)
 	const unsubscribe = useUnsubscribe();
 	const [channels, setChannels] = useState<Channel[]>([]);
 

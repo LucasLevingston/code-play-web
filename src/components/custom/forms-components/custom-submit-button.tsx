@@ -1,6 +1,5 @@
 "use client";
 
-
 import type React from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { Loading } from "@/components/custom/loading";
@@ -26,7 +25,6 @@ export function CustomSubmitButton({
 }: CustomSubmitButtonProps) {
 	return (
 		<CustomButton
-
 			disabled={isSubmitting || !isDirty || disabled}
 			type="submit"
 			className="w-full"

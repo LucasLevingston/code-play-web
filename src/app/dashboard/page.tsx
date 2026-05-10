@@ -1,39 +1,45 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+
 import { Loading } from "@/components/custom/loading";
 import { VideoCard } from "@/components/VideoCard";
+
 import { useGetDashboardVideos } from "@/hooks/useGetDashboardVideos";
+
 import { VideoSegment } from "@/types/video";
-import { fromNow } from "@/utils/dayjs";
-import { formatNumber } from "@/utils/format-number";
 
 const Dashboard = () => {
 	const [mounted, setMounted] = useState(false);
-	const [selectedSegment, setSelectedSegment] = useState<VideoSegment | "All">(
-		"All",
-	);
+
+	const [selectedSegment, setSelectedSegment] = useState<
+		VideoSegment | "All"
+	>("All");
+
 	const { data: videos = [], isLoading } = useGetDashboardVideos();
 
 	useEffect(() => {
 		setMounted(true);
 	}, []);
-	
+
 	const filteredVideos = useMemo(() => {
 		if (selectedSegment === "All") {
 			return videos;
 		}
-		
-		return videos.filter((video) => video.segment === selectedSegment);
+
+		return videos.filter(
+			(video) => video.segment === selectedSegment,
+		);
 	}, [selectedSegment, videos]);
+
 	if (isLoading) {
 		return <Loading />;
 	}
+
 	if (!mounted) return null;
 
 	const categories = [
-		{ value: "All", label: "All" },
+		{ value: "All", label: "Todos" },
 		{ value: VideoSegment.BACKEND, label: "Backend" },
 		{ value: VideoSegment.FRONTEND, label: "Frontend" },
 		{ value: VideoSegment.FULLSTACK, label: "Fullstack" },
@@ -47,21 +53,25 @@ const Dashboard = () => {
 
 	const [featured, sideFirst, sideSecond, ...gridVideos] =
 		filteredVideos.length >= 3 ? filteredVideos : videos;
+
 	const visibleGridVideos =
 		gridVideos.length > 0 ? gridVideos : videos.slice(3);
-console.log({ videos, filteredVideos, featured, sideFirst, sideSecond, gridVideos });
+
 	return (
-		<div className="px-3 py-8 lg:px-5">
-			<div className="mb-6 flex gap-2 overflow-x-auto pb-2">
-				{categories?.map((category) => (
+		<div className="w-full px-3 py-6 sm:px-4 lg:px-6 xl:px-8">
+			{/* Categorias */}
+			<div className="mb-6 flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+				{categories.map((category) => (
 					<button
 						key={category.value}
 						type="button"
-						onClick={() => setSelectedSegment(category.value)}
-						className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-medium transition ${
+						onClick={() =>
+							setSelectedSegment(category.value)
+						}
+						className={`shrink-0 whitespace-nowrap rounded-full border px-4 py-2 text-xs font-medium transition-all sm:text-sm ${
 							selectedSegment === category.value
-								? "bg-tertiary text-black"
-								: "bg-white/5 text-white/80 hover:bg-white/10"
+								? "border-primary bg-primary text-primary-foreground"
+								: "border-border bg-background text-muted-foreground hover:bg-muted"
 						}`}
 					>
 						{category.label}
@@ -69,76 +79,43 @@ console.log({ videos, filteredVideos, featured, sideFirst, sideSecond, gridVideo
 				))}
 			</div>
 
-			<section className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
-				<article className="group cursor-pointer">
-					<div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-zinc-900">
-						<Image
-							src={featured.thumbnailUrl}
-							alt={`Thumbnail de ${featured.title}`}
-							fill
-							className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-							priority
+			{/* Destaques */}
+			<section className="grid gap-4 lg:grid-cols-[1.4fr_0.8fr] xl:gap-6">
+				{/* Vídeo principal */}
+				<div className="min-w-0">
+					{featured && (
+						<VideoCard
+							video={featured}
+							className="h-full w-full"
 						/>
-						<div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
-						<span className="absolute bottom-3 right-3 rounded-md bg-black/80 px-2 py-0.5 text-xs font-semibold text-white">
-							{featured.duration}
-						</span>
-					</div>
+					)}
+				</div>
 
-					<div className="mt-3 flex gap-3">
-						{featured.user.avatarUrl &&
-						<Image
-						src={featured.user.avatarUrl || "/default-avatar.png"}
-						alt={featured.user.name}
-						width={36}
-						height={36}
-						className="h-9 w-9 rounded-full"
-						/>
-					}
-
-						<div>
-							<h2 className="line-clamp-2 text-3xl font-extrabold tracking-tight text-white">
-								{featured.title}
-							</h2>
-							<p className="mt-1 text-sm text-zinc-300">{featured.user.name}</p>
-							<p className="mt-0.5 text-sm text-zinc-500">
-								{formatNumber(featured.views)} views •{" "}
-								{fromNow(featured.publishedAt)}
-							</p>
-						</div>
-					</div>
-				</article>
-
+				{/* Vídeos laterais */}
 				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-					{[sideFirst, sideSecond].map((video) => (
-						<article key={video.id} className="group cursor-pointer">
-							<div className="relative aspect-video overflow-hidden rounded-2xl bg-zinc-900">
-								<Image
-									src={video.thumbnailUrl}
-									alt={`Thumbnail de ${video.title}`}
-									fill
-									className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-								/>
-								<span className="absolute bottom-2 right-2 rounded-md bg-black/80 px-2 py-0.5 text-[11px] font-semibold text-white">
-									{video.duration}
-								</span>
-							</div>
-
-							<h3 className="mt-2 line-clamp-2 text-2xl font-bold text-white">
-								{video.title}
-							</h3>
-							<p className="mt-1 text-sm text-zinc-400">
-								{video.user.username} • {formatNumber(video.views)} views
-							</p>
-						</article>
-					))}
+					{[sideFirst, sideSecond]
+						.filter(Boolean)
+						.map((video) => (
+							<VideoCard
+								key={video.id}
+								video={video}
+								className="w-full"
+							/>
+						))}
 				</div>
 			</section>
 
-			<section className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-				{visibleGridVideos?.slice(0, 8).map((video) => (
-					<VideoCard key={video.id} video={video} />
-				))}
+			{/* Grid de vídeos */}
+			<section className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+				{visibleGridVideos
+					.slice(0, 12)
+					.map((video) => (
+						<VideoCard
+							key={video.id}
+							video={video}
+							className="w-full"
+						/>
+					))}
 			</section>
 		</div>
 	);

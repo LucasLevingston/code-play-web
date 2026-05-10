@@ -1,39 +1,34 @@
-import type {
-   Comment,
-   LikeModel,
-   Subscription,
-   Video,
-} from "./video"
+import type { Comment, LikeModel, Subscription, Video } from "./video";
 
 export enum Role {
-   USER = "USER",
-   ADMIN = "ADMIN",
+	USER = "USER",
+	ADMIN = "ADMIN",
 }
 
 export type User = {
-   id: string
-   name: string
-   username: string
-   email: string
-   password: string
-   createdAt: Date
-   age: number
-   role: Role
-   avatarUrl?: string | null
+	id: string;
+	name: string;
+	username: string;
+	email: string;
+	password: string;
+	createdAt: Date;
+	age: number;
+	role: Role;
+	avatarUrl?: string | null;
 
-   videos: Video[]
+	videos: Video[];
 
-   watchLaterIds: string[]
-   historyIds: string[]
+	watchLaterIds: string[];
+	historyIds: string[];
 
-   comments: Comment[]
+	comments: Comment[];
 
-   likes: LikeModel[]
+	likes: LikeModel[];
 
-   likedVideoIds: string[]
-   likedCommentIds: string[]
+	likedVideoIds: string[];
+	likedCommentIds: string[];
 
-   subscriptions: Subscription[]
+	subscriptions: Subscription[];
 
-   subscribers: Subscription[]
-}
+	subscribers: Subscription[];
+};

@@ -39,9 +39,8 @@ export function Header() {
 						</CustomButton>
 
 						<Button
-							variant="ghost"
-							size="icon"
-							className="rounded-full hover:bg-white/5"
+							
+							className="rounded-full hover:bg-primary bg-transparent text-black dark:text-white"
 						>
 							<Bell className="h-5 w-5" />
 						</Button>

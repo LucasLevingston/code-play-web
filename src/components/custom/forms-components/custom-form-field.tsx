@@ -11,7 +11,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { getLabelByFormName, getPlaceholderByFormName } from "@/lib/utils";
+import { cn, getLabelByFormName, getPlaceholderByFormName } from "@/lib/utils";
 import { CustomInput } from "../custom-input";
 
 export enum FormFieldType {
@@ -78,7 +78,6 @@ export default function CustomFormField({
 							<CustomInput
 								placeholder={finalPlaceholder}
 								disabled={disabled}
-								
 								{...field}
 							/>
 						</FormControl>
@@ -116,22 +115,45 @@ export default function CustomFormField({
 					)}
 
 					{fieldType === FormFieldType.TEXTAREA && (
-						<FormControl>
-							<Textarea
-								placeholder={finalPlaceholder}
-								disabled={disabled}
-								className="bg-[#111] border-[#262626] text-white placeholder:text-white/40 focus-visible:ring-primary focus-visible:border-primary min-h-32"
-								{...field}
-							/>
-						</FormControl>
-					)}
+	<FormControl>
+		<div
+			className={cn(
+				"group relative flex min-h-[140px] w-full overflow-hidden rounded-2xl border transition-all duration-200",
+
+				"border-zinc-200 bg-white",
+
+				"dark:border-white/10 dark:bg-[#1F1F1F]",
+
+				"focus-within:border-primary/60",
+				"focus-within:ring-4 focus-within:ring-primary/10",
+			)}
+		>
+			<Textarea
+				placeholder={finalPlaceholder}
+				disabled={disabled}
+				{...field}
+				className={cn(
+					"min-h-[140px] w-full resize-none border-0 bg-transparent px-4 py-4 text-sm shadow-none outline-none ring-0 transition-all",
+
+					"text-zinc-900 placeholder:text-zinc-400",
+
+					"dark:text-white dark:placeholder:text-white/35",
+
+					"focus-visible:ring-0 focus-visible:ring-offset-0",
+
+					className,
+				)}
+			/>
+		</div>
+	</FormControl>
+)}
 
 					{fieldType === FormFieldType.SELECT && children && (
 						<FormControl>
 							<div className="relative">
 								<select
 									disabled={disabled}
-									className="bg-[#111] border border-[#262626] text-white placeholder:text-white/40 focus-visible:ring-primary focus-visible:border-primary rounded px-4 py-2 w-full appearance-none"
+									className=" border  text-white placeholder:text-white/40 focus-visible:ring-primary focus-visible:border-primary rounded px-4 py-2 w-full appearance-none"
 									{...field}
 								>
 									<option value="">{finalPlaceholder}</option>

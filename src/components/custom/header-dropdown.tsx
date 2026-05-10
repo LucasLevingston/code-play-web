@@ -1,24 +1,24 @@
 import {
-   BarChart,
-   FileText,
-   LayoutList,
-   LogOut,
-   MoveUpRight,
-   User as UserIcon,
-   Users,
+	BarChart,
+	FileText,
+	LayoutList,
+	LogOut,
+	MoveUpRight,
+	User as UserIcon,
+	Users,
 } from "lucide-react";
 import Link from "next/link";
 import type * as React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuGroup,
-   DropdownMenuItem,
-   DropdownMenuLabel,
-   DropdownMenuSeparator,
-   DropdownMenuTrigger,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { Role, type User } from "@/types/user";

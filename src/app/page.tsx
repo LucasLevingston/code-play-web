@@ -7,6 +7,7 @@ import { CustomButton } from "@/components/custom/custom-button";
 function HomePage() {
 	return (
 		<div className="flex flex-col items-center justify-center w-full">
+			
 			<div className="relative  py-12">
 				<div className="max-w-7xl mx-auto">
 					<div className="absolute top-20 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl opacity-20" />

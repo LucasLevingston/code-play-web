@@ -1,6 +1,8 @@
 "use client";
 
+import { Clock } from "lucide-react";
 import { useMemo, useState } from "react";
+import PageHeader from "@/components/custom/page-header";
 import { VideoList } from "@/components/VideoList";
 import { useGetWatchLaterVideos } from "@/hooks/useGetWatchLaterVideos";
 
@@ -18,13 +20,12 @@ export default function WatchLaterPage() {
 	};
 
 	return (
-		<div className="px-3 py-8 lg:px-5">
-			<div className="mb-8">
-				<h1 className="text-3xl font-bold text-white">Assistir Mais Tarde</h1>
-				<p className="mt-2 text-sm text-zinc-400">
-					{filteredVideos.length} vídeo{filteredVideos.length !== 1 ? "s" : ""}
-				</p>
-			</div>
+		<div className="space-y-4">
+			<PageHeader
+				title="Assitir mais tarde"
+				description="Veja os vídeos que você salvou para assistir depois"
+				icon={<Clock className="h-5 w-5 sm:h-6 sm:w-6" />}
+			/>
 
 			<VideoList
 				videos={filteredVideos}

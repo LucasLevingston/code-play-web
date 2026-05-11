@@ -1,6 +1,8 @@
 "use client";
 
+import { ThumbsUp } from "lucide-react";
 import { useMemo, useState } from "react";
+import PageHeader from "@/components/custom/page-header";
 import { VideoList } from "@/components/VideoList";
 import { useGetLikedVideos } from "@/hooks/useGetLikedVideos";
 
@@ -18,13 +20,12 @@ export default function LikedVideosPage() {
 	};
 
 	return (
-		<div className="px-3 py-8 lg:px-5">
-			<div className="mb-8">
-				<h1 className="text-3xl font-bold text-white">Vídeos Curtidos</h1>
-				<p className="mt-2 text-sm text-zinc-400">
-					{filteredVideos.length} vídeo{filteredVideos.length !== 1 ? "s" : ""}
-				</p>
-			</div>
+		<div className="space-y-4">
+			<PageHeader
+				title="Vídeos Curtidos"
+				description="Veja os vídeos que você curtiu"
+				icon={<ThumbsUp className="h-5 w-5 sm:h-6 sm:w-6" />}
+			/>
 
 			<VideoList
 				videos={filteredVideos}

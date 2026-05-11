@@ -1,13 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-	Check,
-	ImageIcon,
-	UploadCloud,
-	VideoIcon,
-	X,
-} from "lucide-react";
+import { Check, ImageIcon, UploadCloud, VideoIcon, X } from "lucide-react";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -19,12 +13,11 @@ import CustomFormField, {
 	FormFieldType,
 } from "@/components/custom/forms-components/custom-form-field";
 import { CustomSubmitButton } from "@/components/custom/forms-components/custom-submit-button";
-
+import PageHeader from "@/components/custom/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Form, FormLabel } from "@/components/ui/form";
-
 import { useCreateVideo } from "@/hooks/useCreateVideo";
 import { cn } from "@/lib/utils";
 import { visibilityOptions } from "@/types/visibility-options";
@@ -105,9 +98,7 @@ export default function CreatePage() {
 		setVideoFile(file);
 	}
 
-	function handleThumbnailChange(
-		event: React.ChangeEvent<HTMLInputElement>,
-	) {
+	function handleThumbnailChange(event: React.ChangeEvent<HTMLInputElement>) {
 		const file = event.target.files?.[0];
 
 		if (!file) return;
@@ -147,16 +138,12 @@ export default function CreatePage() {
 	}
 
 	return (
-		<div className="mx-auto w-full max-w-[1600px] px-4 py-8 lg:px-6">
-			<div className="mb-10">
-				<h1 className="text-4xl font-bold tracking-tight text-foreground lg:text-5xl">
-					Enviar Vídeo
-				</h1>
-
-				<p className="mt-2 text-base text-muted-foreground lg:text-lg">
-					Compartilhe seus conteúdos com a comunidade.
-				</p>
-			</div>
+		<div className="space-y-4">
+			<PageHeader
+				title="Enviar Vídeo"
+				description="Compartilhe seus conteúdos com a comunidade."
+				icon={<VideoIcon className="h-5 w-5 sm:h-6 sm:w-6" />}
+			/>
 
 			<Form {...form}>
 				<form
@@ -253,9 +240,7 @@ export default function CreatePage() {
 									<Button
 										type="button"
 										size="lg"
-										onClick={() =>
-											thumbnailInputRef.current?.click()
-										}
+										onClick={() => thumbnailInputRef.current?.click()}
 										className="mt-6 rounded-2xl"
 									>
 										<UploadCloud className="mr-2 h-4 w-4" />
@@ -314,7 +299,6 @@ export default function CreatePage() {
 											className="flex items-center gap-2 rounded-full border border-border bg-muted px-3 py-1 text-foreground"
 										>
 											#{tag}
-
 											<button
 												type="button"
 												onClick={() => removeTag(tag)}
@@ -339,11 +323,7 @@ export default function CreatePage() {
 										}}
 									/>
 
-									<CustomButton
-										type="button"
-										onClick={addTag}
-										className="w-24"
-									>
+									<CustomButton type="button" onClick={addTag} className="w-24">
 										Adicionar
 									</CustomButton>
 								</div>
@@ -367,10 +347,7 @@ export default function CreatePage() {
 												key={option.value}
 												type="button"
 												onClick={() =>
-													form.setValue(
-														"visibility",
-														option.value,
-													)
+													form.setValue("visibility", option.value)
 												}
 												className={cn(
 													"flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border transition-all",
@@ -404,9 +381,7 @@ export default function CreatePage() {
 									disabled={isPending}
 									className="h-12 rounded-2xl text-base font-semibold"
 								>
-									{isPending
-										? "Enviando vídeo..."
-										: "Publicar vídeo"}
+									{isPending ? "Enviando vídeo..." : "Publicar vídeo"}
 								</CustomSubmitButton>
 							</div>
 						</div>

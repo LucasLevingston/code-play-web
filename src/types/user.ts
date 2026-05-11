@@ -32,3 +32,12 @@ export type User = {
 
 	subscribers: Subscription[];
 };
+
+export interface Channel {
+	id: string;
+	name: string;
+	username: string
+	avatarUrl: string;
+	subscribersCount: number;
+	videos?: Video[];
+}

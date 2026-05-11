@@ -1,25 +1,48 @@
 "use client";
 
 import { Header } from "@/components/header";
-import Sidebar from "@/components/sidebar";
+
+import { AppSidebar } from "@/components/sidebar";
+
+import {
+	SidebarInset,
+	SidebarProvider,
+} from "@/components/ui/sidebar";
+
 import { useUserStore } from "@/stores/useUserStore";
 
-export function AppProvider({ children }: { children: React.ReactNode }) {
+export function AppProvider({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
 	const { user } = useUserStore();
 
 	return (
-		<div className="flex min-h-screen w-full">
-			<div className="flex min-w-0 flex-1 flex-col">
-				<Header />
+		<SidebarProvider>
+			<div className="flex min-h-screen w-full bg-background">
+				{user && <AppSidebar />}
 
-				<main className="flex flex-1 overflow-auto bg-gradient-to-br from-white via-neutral-300 to-white w-full dark:bg-gradient-to-br dark:from-black dark:via-zinc-700 dark:to-black">
-					{user && <Sidebar />}
+				<SidebarInset>
+					<div className="flex min-h-screen flex-col">
+						<Header />
 
-					<div className="flex flex-col items-center justify-center w-full p-6">
-						{children}
+						<main
+							className="
+								flex-1
+								bg-gradient-to-br
+								from-background
+								via-muted/30
+								to-background
+							"
+						>
+							<div className="mx-auto w-full max-w-[1800px] p-4 md:p-6">
+								{children}
+							</div>
+						</main>
 					</div>
-				</main>
+				</SidebarInset>
 			</div>
-		</div>
+		</SidebarProvider>
 	);
 }

@@ -1,18 +1,15 @@
 import Link from "next/link";
 import type React from "react";
-import { cn } from "@/lib/utils";
+import { LogoContent } from "./logo-content";
+import { LogoIcon } from "./logo-icon";
 
 type logoProps = React.ComponentProps<"p">;
 
 export const Logo = (props: logoProps) => {
 	return (
-		<Link href="/" >
-			<p
-				{...props}
-				className={cn("text-primary font-bold text-2xl", props.className)}
-			>
-				CodePlay
-			</p>
+		<Link href="/" className="flex items-center gap-2">
+			<LogoIcon {...props}/>
+			<LogoContent {...props}/>
 		</Link>
 	);
 };

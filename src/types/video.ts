@@ -41,6 +41,9 @@ export type Video = {
 	duration: string;
 	views: number;
 	visibility: Visibility;
+	isLiked?: boolean;
+	isSubscribed?: boolean;
+	likesCount: number
 
 	segment: VideoSegment;
 
@@ -66,7 +69,7 @@ export type Comment = {
 
 	videoId: string;
 	video: Video;
-
+	likesCount?: number
 	likes: LikeModel[];
 
 	createdAt: Date;
@@ -88,3 +91,16 @@ export type LikeModel = {
 
 	createdAt: Date;
 };
+
+export const categoriesType = [
+	{ value: "All", label: "Todos" },
+	{ value: VideoSegment.BACKEND, label: "Backend" },
+	{ value: VideoSegment.FRONTEND, label: "Frontend" },
+	{ value: VideoSegment.FULLSTACK, label: "Fullstack" },
+	{
+		value: VideoSegment.ARTIFICIAL_INTELLIGENCE,
+		label: "Inteligência Artificial",
+	},
+	{ value: VideoSegment.DATA_SCIENCE, label: "Data Science" },
+	{ value: VideoSegment.DEVOPS, label: "DevOps" },
+] as const;

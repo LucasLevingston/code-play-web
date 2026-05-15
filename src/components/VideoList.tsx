@@ -11,6 +11,7 @@ import type { Video } from "@/types/video";
 
 import { fromNow } from "@/utils/dayjs";
 import { formatNumber } from "@/utils/format-number";
+import { PageLayout } from "./custom/page-layout";
 
 interface VideoListProps {
 	videos: Video[];
@@ -60,7 +61,7 @@ export function VideoList({
 	}
 
 	return (
-		<div className="space-y-4">
+		<PageLayout>
 			{videos.map((video) => (
 				<Link
 					key={video.id}
@@ -171,6 +172,6 @@ export function VideoList({
 					</div>
 				</Link>
 			))}
-		</div>
+		</PageLayout>
 	);
 }

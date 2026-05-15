@@ -1,26 +1,16 @@
 "use client";
 
 import { History } from "lucide-react";
-import { useMemo, useState } from "react";
 import PageHeader from "@/components/custom/page-header";
 import { VideoList } from "@/components/VideoList";
-import { useGetHistoryVideos } from "@/hooks/useGetHistoryVideos";
+import { useGetVideos } from "@/hooks/useGetVideos";
+import { QueryBoundary } from "@/components/custom/query-boundary";
 
 export default function HistoryPage() {
-	const { data: videos = [] } = useGetHistoryVideos();
-	const [removedIds, setRemovedIds] = useState<string[]>([]);
-
-	const filteredVideos = useMemo(
-		() => videos.filter((v) => !removedIds.includes(v.id)),
-		[videos, removedIds],
-	);
-
-	const handleRemove = (id: string) => {
-		setRemovedIds((prev) => [...prev, id]);
-	};
+	const { data: videos = [], isLoading, error } = useGetVideos({ segment: 'history', limit: 15 });
 
 	return (
-		<div className="space-y-4">
+		<QueryBoundary isLoading={isLoading} error={error} >
 			<PageHeader
 				title="Histórico de Visualização"
 				description="Veja os vídeos que você assistiu"
@@ -28,12 +18,11 @@ export default function HistoryPage() {
 			/>
 
 			<VideoList
-				videos={filteredVideos}
-				isEmpty={filteredVideos.length === 0}
+				videos={videos}
+				isEmpty={videos.length === 0}
 				emptyMessage="Nenhum vídeo no histórico"
 				showRemoveButton
-				onRemove={handleRemove}
 			/>
-		</div>
+		</QueryBoundary>
 	);
 }

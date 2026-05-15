@@ -4,11 +4,12 @@ import { Clock } from "lucide-react";
 import { useMemo, useState } from "react";
 import PageHeader from "@/components/custom/page-header";
 import { VideoList } from "@/components/VideoList";
-import { useGetWatchLaterVideos } from "@/hooks/useGetWatchLaterVideos";
+import { useGetVideos } from "@/hooks/useGetVideos";
+import { QueryBoundary } from "@/components/custom/query-boundary";
 
 export default function WatchLaterPage() {
 	const [removedIds, setRemovedIds] = useState<string[]>([]);
-	const { data: videos = [] } = useGetWatchLaterVideos();
+	const { data: videos = [], isLoading, error } = useGetVideos({ segment: 'watch-later', limit: 8 });
 
 	const filteredVideos = useMemo(
 		() => videos.filter((v) => !removedIds.includes(v.id)),
@@ -20,7 +21,7 @@ export default function WatchLaterPage() {
 	};
 
 	return (
-		<div className="space-y-4">
+		<QueryBoundary isLoading={isLoading} error={error} >
 			<PageHeader
 				title="Assitir mais tarde"
 				description="Veja os vídeos que você salvou para assistir depois"
@@ -34,6 +35,6 @@ export default function WatchLaterPage() {
 				showRemoveButton
 				onRemove={handleRemove}
 			/>
-		</div>
+		</QueryBoundary>
 	);
 }

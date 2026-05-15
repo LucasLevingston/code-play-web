@@ -15,6 +15,11 @@ const nextConfig: NextConfig = {
 				protocol: "https",
 				hostname: "avatars.githubusercontent.com",
 			},
+			{
+				protocol: 'https',
+				hostname:
+					'codeplay-bucket-908877525889-us-east-2-an.s3.us-east-2.amazonaws.com',
+			},
 
 			{
 				protocol: "https",

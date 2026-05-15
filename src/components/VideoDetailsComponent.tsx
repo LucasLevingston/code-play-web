@@ -1,18 +1,14 @@
 "use client";
 
-import {
-	Bookmark,
-	CornerDownLeft,
-	Ellipsis,
-	Share2,
-	ThumbsDown,
-	ThumbsUp,
-} from "lucide-react";
+import { CornerDownLeft, ThumbsUp } from "lucide-react";
 import Image from "next/image";
-import { useSubscribe } from "@/hooks/useVideoActions";
 import type { Video } from "../types/video";
 import { fromNow } from "../utils/dayjs";
 import { formatNumber } from "../utils/format-number";
+import LikeVideoButton from "./custom/button/like-video-button";
+import ShareVideoButton from "./custom/button/share-video-button";
+import SubscribeButton from "./custom/button/subscribe-button";
+import { PageLayout } from "./custom/page-layout";
 
 type videoDetailsProps = {
 	video: Video;
@@ -20,18 +16,19 @@ type videoDetailsProps = {
 
 export function VideoDetailsComponent({
 	video: {
+		id,
 		title,
 		views,
 		publishedAt,
 		user,
 		description,
-		likes,
+		likesCount,
+		isLiked,
+		isSubscribed,
 	},
 }: videoDetailsProps) {
-	const subscribe = useSubscribe();
-
 	return (
-		<div className="min-w-0 space-y-5">
+		<PageLayout>
 			<div className="space-y-4">
 				<div className="space-y-3">
 					<h1 className="max-w-4xl text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl">
@@ -41,45 +38,22 @@ export function VideoDetailsComponent({
 				<div className="justify-between flex">
 					<div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-white/65">
 						<span className="font-medium text-white/90">
-							{formatNumber(views)}
+							{formatNumber(views)} visualizações
 						</span>
 						<span>•</span>
 						<span>{fromNow(publishedAt)}</span>
 					</div>
 					<div className="flex flex-wrap items-center gap-3">
-						<button
-							type="button"
-							className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/12"
+						<LikeVideoButton
+							videoId={id}
+							isLiked={isLiked}
+							className="rounded-2xl"
 						>
-							<ThumbsUp className="h-4 w-4" />
-							{formatNumber(likes.length || 0)}
-						</button>
-						<button
-							type="button"
-							className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/12"
-						>
-							<ThumbsDown className="h-4 w-4" />
-						</button>
-						<button
-							type="button"
-							className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/12"
-						>
-							<Share2 className="h-4 w-4" />
-							Share
-						</button>
-						<button
-							type="button"
-							className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/12"
-						>
-							<Bookmark className="h-4 w-4" />
-							Save
-						</button>
-						<button
-							type="button"
-							className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/8 text-white transition hover:bg-white/12"
-						>
-							<Ellipsis className="h-4 w-4" />
-						</button>
+							<ThumbsUp className="mr-2 h-4 w-4" />
+							{likesCount}
+						</LikeVideoButton>
+
+						<ShareVideoButton />
 					</div>
 				</div>
 			</div>
@@ -98,19 +72,16 @@ export function VideoDetailsComponent({
 						<div>
 							<h2 className="text-lg font-semibold text-white">{user.name}</h2>
 							<p className="text-sm text-white/55">
-								{formatNumber(user.subscribers.length || 0)} subscribers
+								{formatNumber(user.subscribersCount || 0)} subscribers
 							</p>
 						</div>
 					</div>
 
-					<button
-						type="button"
-						onClick={() => subscribe.mutate(user.id)}
-						disabled={subscribe.isPending}
-						className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-background transition hover:brightness-110"
-					>
-						{subscribe.isPending ? "Subscribing..." : "Subscribe"}
-					</button>
+					<SubscribeButton
+						channelId={user.id}
+						isSubscribed={isSubscribed}
+						className="rounded-full"
+					/>
 				</div>
 			</div>
 
@@ -124,7 +95,7 @@ export function VideoDetailsComponent({
 					<CornerDownLeft className="h-3.5 w-3.5" />
 				</button>
 			</div>
-		</div>
+		</PageLayout>
 	);
 }
 

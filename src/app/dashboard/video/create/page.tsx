@@ -21,6 +21,7 @@ import { Form, FormLabel } from "@/components/ui/form";
 import { useCreateVideo } from "@/hooks/useCreateVideo";
 import { cn } from "@/lib/utils";
 import { visibilityOptions } from "@/types/visibility-options";
+import { PageLayout } from "@/components/custom/page-layout";
 
 const uploadSchema = z.object({
 	title: z
@@ -138,7 +139,7 @@ export default function CreatePage() {
 	}
 
 	return (
-		<div className="space-y-4">
+		<PageLayout>
 			<PageHeader
 				title="Enviar Vídeo"
 				description="Compartilhe seus conteúdos com a comunidade."
@@ -388,6 +389,6 @@ export default function CreatePage() {
 					</Card>
 				</form>
 			</Form>
-		</div>
+		</PageLayout>
 	);
 }

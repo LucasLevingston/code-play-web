@@ -1,137 +1,42 @@
 "use client";
 
 import clsx from "clsx";
-
-import {
-	Eye,
-	MessageCircle,
-	MoreHorizontal,
-	PlayCircle,
-	ThumbsUp,
-} from "lucide-react";
-
+import { Eye, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-
-import { Loading } from "@/components/custom/loading";
-import PageHeader from "@/components/custom/page-header";
+import { CommentInput } from "@/components/custom/comment-input";
+import { QueryBoundary } from "@/components/custom/query-boundary";
 import { CommentsList } from "@/components/list-comments";
 import { Button } from "@/components/ui/button";
 import VideoDetailsComponent from "@/components/VideoDetailsComponent";
+import VideoPlayer from "@/components/VideoPlayer";
+import { useGetNextUpVideos } from "@/hooks/useGetNextUpVideos";
 import { useGetVideoById } from "@/hooks/useGetVideoById";
-import { useGetVideos } from "@/hooks/useGetVideos";
 
 function VideoPage() {
 	const params = useParams();
 
 	const videoId = params?.Id as string;
 
-	const { data: video } = useGetVideoById(videoId);
-
-	const { data: allVideos = [] } = useGetVideos(
-		video?.segment
-			? {
-					segment: video.segment,
-				}
-			: {},
-	);
-
-	if (!video) {
-		return <Loading />;
-	}
-
-	const nextUp = allVideos.filter((v) => v.id !== videoId).slice(0, 6);
-
-	const {
-		title,
-		thumbnailUrl,
-		duration,
-		tags = [],
-		comments = [],
-		views,
-	} = video;
+	const { data: video, isLoading, error } = useGetVideoById(videoId);
+	const { data: nextUp = [] } = useGetNextUpVideos(videoId);
 
 	return (
-		<section className="mx-auto w-full max-w-[1700px] px-3 py-4 sm:px-4 lg:px-6">
-			<PageHeader title="Assistir vídeo" description="Aproveite o conteúdo!" />
+		<QueryBoundary isLoading={isLoading} error={error}>
 			<div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
 				<div className="min-w-0 space-y-5">
-					<div className="overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
-						<div className="relative aspect-video w-full">
-							<Image
-								src={thumbnailUrl}
-								alt={`Thumbnail de ${title}`}
-								fill
-								priority
-								className="object-cover"
-							/>
-
-							<div className="absolute inset-x-4 top-4 flex items-start justify-between gap-3">
-								<div className="inline-flex items-center rounded-full border border-white/10 bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur">
-									<PlayCircle className="mr-2 h-3.5 w-3.5" />
-									Vídeo
-								</div>
-
-								<div className="rounded-full border border-white/10 bg-black/60 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
-									{duration}
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div className="rounded-3xl border border-border bg-card p-4 sm:p-5">
-						<div className="flex flex-col gap-5">
-							<div>
-								<h1 className="text-xl font-bold text-foreground sm:text-2xl">
-									{title}
-								</h1>
-
-								<div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-									<div className="flex items-center gap-1">
-										<Eye className="h-4 w-4" />
-										{views} visualizações
-									</div>
-
-									<div className="flex items-center gap-1">
-										<MessageCircle className="h-4 w-4" />
-										{comments.length} comentários
-									</div>
-								</div>
-							</div>
-
-							{/* Botões */}
-							<div className="flex flex-wrap gap-3">
-								<Button
-									type="button"
-									variant="secondary"
-									className="rounded-2xl"
-								>
-									<ThumbsUp className="mr-2 h-4 w-4" />
-									Curtir
-								</Button>
-
-								<Button
-									type="button"
-									variant="secondary"
-									className="rounded-2xl"
-								>
-									Salvar
-								</Button>
-
-								<Button type="button" variant="outline" className="rounded-2xl">
-									Compartilhar
-								</Button>
-							</div>
-						</div>
-					</div>
-
-					<VideoDetailsComponent video={video} />
+					<VideoPlayer
+						src={video?.videoUrl}
+						poster={video?.thumbnailUrl}
+						title={video?.title || "Vídeo"}
+					/>
+					{video && <VideoDetailsComponent video={video} />}
 
 					<div className="rounded-3xl border border-border bg-card p-4 sm:p-5">
 						<div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
 							<h3 className="text-lg font-semibold text-foreground">
-								{comments.length} comentários
+								{video?.comments.length} comentários
 							</h3>
 
 							<Button
@@ -146,28 +51,13 @@ function VideoPage() {
 						</div>
 
 						<div className="mt-5 space-y-5">
-							<div className="flex items-center gap-3 rounded-2xl border border-border bg-background px-4 py-3">
-								<Image
-									src={video.user.avatarUrl || "/default-avatar.png"}
-									alt="Avatar"
-									width={36}
-									height={36}
-									className="rounded-full"
-								/>
+							<CommentInput
+								videoId={videoId}
+								userAvatar={video?.user.avatarUrl}
+							/>
 
-								<input
-									type="text"
-									placeholder="Adicione um comentário..."
-									className="
-										flex-1 bg-transparent text-sm text-foreground
-										outline-none placeholder:text-muted-foreground
-									"
-								/>
-							</div>
-
-							{/* Lista */}
-							{comments.length > 0 ? (
-								<CommentsList comments={comments} />
+							{video?.comments?.length && video?.comments?.length > 0 ? (
+								<CommentsList comments={video?.comments} videoId={videoId} />
 							) : (
 								<div className="rounded-2xl border border-dashed border-border py-10 text-center">
 									<p className="text-sm text-muted-foreground">
@@ -247,9 +137,9 @@ function VideoPage() {
 						</div>
 					</div>
 
-					{tags.length > 0 && (
+					{video?.tags.length && video?.tags.length > 0 && (
 						<div className="flex flex-wrap gap-2">
-							{tags.map((tag) => (
+							{video.tags.map((tag) => (
 								<button
 									key={tag}
 									type="button"
@@ -266,7 +156,7 @@ function VideoPage() {
 					)}
 				</aside>
 			</div>
-		</section>
+		</QueryBoundary>
 	);
 }
 

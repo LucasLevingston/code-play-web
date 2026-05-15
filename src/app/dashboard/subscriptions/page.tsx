@@ -2,19 +2,14 @@
 
 import { BellCheck, BellRing } from "lucide-react";
 import { ListChannels } from "@/components/custom/list-channels";
-import { Loading } from "@/components/custom/loading";
 import PageHeader from "@/components/custom/page-header";
 import { useGetSubscriptions } from "@/hooks/useGetSubscriptions";
+import { QueryBoundary } from "@/components/custom/query-boundary";
 
 export default function SubscriptionsPage() {
-	const { data: channels = [], isLoading } = useGetSubscriptions();
-
-	if (isLoading) {
-		return <Loading />;
-	}
-
+	const { data: channels = [], isLoading, error } = useGetSubscriptions();
 	return (
-		<div>
+		<QueryBoundary isLoading={isLoading} error={error} >
 			<PageHeader
 				title="Inscrições"
 				description="Veja os canais que você está inscrito"
@@ -56,6 +51,6 @@ export default function SubscriptionsPage() {
 					<ListChannels channels={channels} />
 				)}
 			</div>
-		</div>
+		</QueryBoundary>
 	);
 }

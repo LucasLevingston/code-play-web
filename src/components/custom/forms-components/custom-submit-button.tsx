@@ -3,6 +3,7 @@
 import type React from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { Loading } from "@/components/custom/loading";
+import { cn } from "@/lib/utils";
 import { CustomButton } from "../custom-button";
 
 interface CustomSubmitButtonProps {
@@ -21,13 +22,16 @@ export function CustomSubmitButton({
 	children,
 	submittingText = "Enviando...",
 	disabled,
-	form,
+	form,className
 }: CustomSubmitButtonProps) {
 	return (
 		<CustomButton
 			disabled={isSubmitting || !isDirty || disabled}
 			type="submit"
-			className="w-full"
+			className={cn(
+				"w-full",
+				className
+			)}
 		>
 			{form?.formState.isSubmitting || isSubmitting ? (
 				<>

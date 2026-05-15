@@ -2,6 +2,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import type { Video } from "@/types/video";
+import { formatNumber } from "@/utils/format-number";
 
 interface VideoCardProps {
 	video: Video;
@@ -45,7 +46,7 @@ export function VideoCard({
 					<div className={clsx("text-zinc-400 mt-1 flex items-center gap-1")}>
 						<span>{user.name}</span>
 						<span>•</span>
-						<span>{views}</span>
+						<span>{formatNumber(views)}</span>
 					</div>
 				</div>
 			</div>{" "}

@@ -51,7 +51,7 @@ export default function Register() {
 					<Form {...form}>
 						<form
 							onSubmit={form.handleSubmit(onSubmit)}
-							className="space-y-4 w-[420px]"
+							className="space-y-4"
 						>
 							<div className="grid gap-4 sm:grid-cols-2">
 								<CustomFormField

@@ -6,7 +6,7 @@ export function useGetChannelById(id: string) {
    return useQuery({
       queryKey: ["channel", id],
       queryFn: async () => {
-         const { data } = await api.get<Channel>(`/users/${id}`);
+         const { data } = await api.get<Channel & { isSubscribed: boolean }>(`/users/${id}`);
 
          return data;
       },

@@ -30,6 +30,9 @@ export default function RootLayout({
 			lang="en"
 			className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
 		>
+			<head>
+				<link rel="icon" href="/logo.png" />
+			</head>
 			<body className="min-h-screen">
 				<Providers>{children}</Providers>
 			</body>

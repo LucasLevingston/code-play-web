@@ -100,3 +100,45 @@ export function useUnsubscribe() {
 		},
 	});
 }
+
+export function useCreateComment() {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: async (payload: { videoId: string; content: string }) => {
+			const { data } = await api.post(`/videos/comments`, payload);
+			return data;
+		},
+		onSuccess: (_, variables) => {
+			queryClient.invalidateQueries({ queryKey: ["video", variables.videoId] });
+		},
+	});
+}
+
+export function useLikeComment() {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: async (commentId: string) => {
+			const { data } = await api.post(`/videos/comments/${commentId}/like`);
+			return data;
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["videos"] });
+		},
+	});
+}
+
+export function useUnlikeComment() {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: async (commentId: string) => {
+			const { data } = await api.delete(`/videos/comments/${commentId}/like`);
+			return data;
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["videos"] });
+		},
+	});
+}

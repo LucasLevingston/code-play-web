@@ -107,7 +107,7 @@ export function Header() {
 				) : (
 					<div className="flex items-center gap-2">
 						<Link href="/auth/login">
-							<CustomButton className="w-16">
+							<CustomButton className="w-28">
 								Login
 							</CustomButton>
 						</Link>
@@ -115,10 +115,9 @@ export function Header() {
 						<Link href="/auth/register">
 							<CustomButton
 								className="
-									w-16
-									bg-primary text-white
-
-									hover:bg-secondary
+									w-28
+									bg-transparent dark:text-white
+text-black border-primary hover:bg-primary/10
 								"
 							>
 								Criar conta

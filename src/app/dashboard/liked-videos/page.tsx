@@ -1,26 +1,19 @@
 "use client";
 
 import { ThumbsUp } from "lucide-react";
-import { useMemo, useState } from "react";
 import PageHeader from "@/components/custom/page-header";
 import { VideoList } from "@/components/VideoList";
-import { useGetLikedVideos } from "@/hooks/useGetLikedVideos";
+import { useGetVideos } from "@/hooks/useGetVideos";
+import { QueryBoundary } from "@/components/custom/query-boundary";
 
 export default function LikedVideosPage() {
-	const { data: videos = [] } = useGetLikedVideos();
-	const [removedIds, setRemovedIds] = useState<string[]>([]);
+	const { data: videos = [], isLoading, error } = useGetVideos({ segment: 'liked', limit: 12 });
 
-	const filteredVideos = useMemo(
-		() => videos.filter((v) => !removedIds.includes(v.id)),
-		[videos, removedIds],
-	);
 
-	const handleRemove = (id: string) => {
-		setRemovedIds((prev) => [...prev, id]);
-	};
+
 
 	return (
-		<div className="space-y-4">
+		<QueryBoundary isLoading={isLoading} error={error} >
 			<PageHeader
 				title="Vídeos Curtidos"
 				description="Veja os vídeos que você curtiu"
@@ -28,12 +21,11 @@ export default function LikedVideosPage() {
 			/>
 
 			<VideoList
-				videos={filteredVideos}
-				isEmpty={filteredVideos.length === 0}
+				videos={videos}
+				isEmpty={videos.length === 0}
 				emptyMessage="Nenhum vídeo curtido"
 				showRemoveButton
-				onRemove={handleRemove}
 			/>
-		</div>
+		</QueryBoundary>
 	);
 }

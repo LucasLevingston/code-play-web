@@ -2,14 +2,37 @@ import { MessageCircle, ThumbsUp } from "lucide-react";
 import Image from "next/image";
 import type { Comment } from "@/types/video";
 import { fromNow } from "@/utils/dayjs";
+import { PageLayout } from "./custom/page-layout";
+import { useLikeComment, useUnlikeComment } from "@/hooks/useVideoActions";
+import { useQueryClient } from "@tanstack/react-query";
 
 type commentsListType = {
 	comments: Comment[];
+	videoId?: string;
 };
 
-export const CommentsList = ({ comments }: commentsListType) => {
+export const CommentsList = ({ comments, videoId }: commentsListType) => {
+	const like = useLikeComment();
+	const unlike = useUnlikeComment();
+	const queryClient = useQueryClient();
+
+	async function handleLike(comment: Comment) {
+		try {
+			const isLiked = (comment as any).isLiked;
+			if (isLiked) {
+				await unlike.mutateAsync(comment.id);
+			} else {
+				await like.mutateAsync(comment.id);
+			}
+
+			if (videoId) queryClient.invalidateQueries({ queryKey: ["video", videoId] });
+		} catch (err) {
+			// noop
+		}
+	}
+
 	return (
-		<div className="space-y-4">
+		<PageLayout>
 			{comments?.map((comment) => (
 				<article
 					key={comment.id}
@@ -39,11 +62,12 @@ export const CommentsList = ({ comments }: commentsListType) => {
 
 						<div className="mt-3 flex items-center gap-4 text-sm text-white/55">
 							<button
+								onClick={() => handleLike(comment)}
 								className="inline-flex items-center gap-1.5 transition hover:text-white"
 								type="button"
 							>
 								<ThumbsUp className="h-4 w-4" />
-								{/* {comment.likes} */}
+								<span>{comment.likesCount}</span>
 							</button>
 							<button
 								className="inline-flex items-center gap-1.5 transition hover:text-white"
@@ -56,6 +80,6 @@ export const CommentsList = ({ comments }: commentsListType) => {
 					</div>
 				</article>
 			))}
-		</div>
+		</PageLayout>
 	);
 };

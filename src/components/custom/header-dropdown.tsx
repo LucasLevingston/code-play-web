@@ -1,11 +1,11 @@
 import {
 	BarChart,
+	Check,
 	FileText,
-	LayoutList,
-	LogOut,
+	Home, LogOut,
 	MoveUpRight,
 	User as UserIcon,
-	Users,
+	Users
 } from "lucide-react";
 import Link from "next/link";
 import type * as React from "react";
@@ -40,19 +40,19 @@ export function HeaderDropdown({ user }: HeaderDropdownProps) {
 
 	const menuItems: MenuItem[] = [
 		{
-			label: "Meus Dados",
-			href: "/configuracoes/minhas-informacoes",
-			icon: <UserIcon className="h-4 w-4" />,
+			label: "Home",
+			href: "/dashboard",
+			icon: <Home className="h-4 w-4" />,
 		},
 
 		{
-			label: "Gerenciar Programas",
-			href: "/programs",
-			icon: <LayoutList className="h-4 w-4" />,
+			label: "Inscrições",
+			href: "/subscriptions",
+			icon: <Check className="h-4 w-4" />,
 		},
 		{
-			label: "Relatórios",
-			href: "/reports",
+			label: "Novo Vídeo",
+			href: "/video/create",
 			icon: <BarChart className="h-4 w-4" />,
 		},
 		{

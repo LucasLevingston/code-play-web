@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "@/config/api";
 import type { Video } from "@/types/video";
 
-async function fetchVideoById(videoId: string): Promise<Video> {
+async function fetchVideoById(videoId: string): Promise<Video & { isLiked: boolean, likesCount: number }> {
 	try {
 		const { data } = await api.get(`/videos/${videoId}`);
 		return data;

@@ -1,6 +1,13 @@
 "use client";
 
-import { BellCheck, Clock3, History, Home, PlusSquare, ThumbsUp } from "lucide-react";
+import {
+	BellCheck,
+	Clock3,
+	History,
+	Home,
+	PlusSquare,
+	ThumbsUp,
+} from "lucide-react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -13,113 +20,96 @@ import {
 	SidebarGroupLabel,
 	SidebarHeader,
 	SidebarMenu,
-	SidebarMenuButton,
-	SidebarMenuItem
+	SidebarMenuButton
 } from "@/components/ui/sidebar";
+
 import { Logo } from "./logo";
 
 const defaultLinks = [
 	{
-		title: "Home",
-		url: "/dashboard",
-		icon: Home,
+		title: "Menu",
+		links: [
+			{
+				title: "Home",
+				url: "/dashboard",
+				icon: Home,
+			},
+			{
+				title: "Inscrições",
+				url: "/dashboard/subscriptions",
+				icon: BellCheck,
+			},
+			{
+				title: "Criar",
+				url: "/dashboard/video/create",
+				icon: PlusSquare,
+			},
+		],
 	},
 	{
-		title: "Inscrições",
-		url: "/dashboard/subscriptions",
-		icon: BellCheck,
-	},
-	{
-		title: "Criar",
-		url: "/dashboard/video/create",
-		icon: PlusSquare,
-	},
-];
-
-const galleryLinks = [
-	{
-		title: "Histórico",
-		url: "/dashboard/history",
-		icon: History,
-	},
-	{
-		title: "Vídeos Curtidos",
-		url: "/dashboard/liked-videos",
-		icon: ThumbsUp,
-	},
-	{
-		title: "Assistir Depois",
-		url: "/dashboard/watch-later",
-		icon: Clock3,
+		title: "Sua Galeria",
+		links: [
+			{
+				title: "Histórico",
+				url: "/dashboard/history",
+				icon: History,
+			},
+			{
+				title: "Vídeos Curtidos",
+				url: "/dashboard/liked-videos",
+				icon: ThumbsUp,
+			},
+			{
+				title: "Assistir Depois",
+				url: "/dashboard/watch-later",
+				icon: Clock3,
+			},
+		],
 	},
 ];
 
 export function AppSidebar() {
 	const pathname = usePathname();
-	
+
 	return (
 		<Sidebar collapsible="offcanvas">
 			<SidebarContent>
-				<SidebarHeader className="p-4 flex itesm-center justify-center"> 
-        
-           <Logo />
-      </SidebarHeader>
-				<SidebarGroup>
-					<SidebarGroupLabel>Menu</SidebarGroupLabel>
+				<SidebarHeader className="flex items-center justify-center p-4">
+					<Logo />
+				</SidebarHeader>
 
-					<SidebarGroupContent>
-						<SidebarMenu>
-							{defaultLinks.map((item) => {
-								const isActive = pathname === item.url;
+				{defaultLinks.map((group) => (
+					<SidebarGroup key={group.title}>
+						<SidebarGroupLabel>{group.title}</SidebarGroupLabel>
 
-								return (
-									<SidebarMenuItem key={item.url}>
+						<SidebarGroupContent>
+							<SidebarMenu>
+								{group.links.map((item) => {
+									const isActive = pathname === item.url;
+
+									return (
 										<SidebarMenuButton
 											asChild
 											isActive={isActive}
-											className="h-11 rounded-xl transition-all"
+											className="
+		h-11 rounded-xl transition-all
+		data-[active=true]:text-primary
+		hover:border-primary/40
+											hover:shadow-md hover:shadow-primary/5
+											hover:text-primary  hover:border
+	"
 										>
 											<Link href={item.url}>
-												<item.icon className="h-4 w-4" />
-
-												<span>{item.title}</span>
+												<item.icon className="h-6 w-6" />
+												<span className="text-md">{item.title}</span>
 											</Link>
 										</SidebarMenuButton>
-									</SidebarMenuItem>
-								);
-							})}
-						</SidebarMenu>
-					</SidebarGroupContent>
-				</SidebarGroup>
-
-				{/* Galeria */}
-				<SidebarGroup>
-					<SidebarGroupLabel>Sua Galeria</SidebarGroupLabel>
-
-					<SidebarGroupContent>
-						<SidebarMenu>
-							{galleryLinks.map((item) => {
-								const isActive = pathname === item.url;
-
-								return (
-									<SidebarMenuItem key={item.url}>
-										<SidebarMenuButton
-											asChild
-											isActive={isActive}
-											className="h-11 rounded-xl transition-all"
-										>
-											<Link href={item.url}>
-												<item.icon className="h-4 w-4" />
-
-												<span>{item.title}</span>
-											</Link>
-										</SidebarMenuButton>
-									</SidebarMenuItem>
-								);
-							})}
-						</SidebarMenu>
-					</SidebarGroupContent>
-				</SidebarGroup>
+									);
+								})}
+							</SidebarMenu>
+						</SidebarGroupContent>
+					</SidebarGroup>
+				))}
 			</SidebarContent>
 		</Sidebar>
 	);

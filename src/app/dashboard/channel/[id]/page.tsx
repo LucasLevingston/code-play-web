@@ -1,33 +1,28 @@
 "use client";
 
-import { BellRing, CheckCircle2, PlayCircle, Users } from "lucide-react";
+import { CheckCircle2, PlayCircle, Users } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { Loading } from "@/components/custom/loading";
 import PageHeader from "@/components/custom/page-header";
-import { Button } from "@/components/ui/button";
 import { VideoCard } from "@/components/VideoCard";
 import { useGetChannelById } from "@/hooks/useGetChannelById";
 import { formatNumber } from "@/utils/format-number";
+import SubscribeButton from "@/components/custom/button/subscribe-button";
+import { QueryBoundary } from "@/components/custom/query-boundary";
 
 export default function ChannelPage() {
 	const params = useParams();
 	const channelId = params?.id as string;
 
-	const { data: channel, isLoading } = useGetChannelById(channelId);
-	console.log(channel)
-
-	if (isLoading || !channel) {
-		return <Loading />;
-	}
+	const { data: channel, isLoading, error } = useGetChannelById(channelId);
 
 	return (
-		<div className="mx-auto w-full max-w-7xl px-3 py-6 sm:px-5 lg:px-8">
+		<QueryBoundary isLoading={isLoading} error={error} >
 			<PageHeader
-				title={channel.name}
-				description={`@${channel.username}`}
+				title={channel?.name || ''}
+				description={`@${channel?.username}`}
 				icon={<Users className="h-5 w-5 sm:h-6 sm:w-6" />}
-				count={channel.videos?.length || 0}
+				count={channel?.videos?.length || 0}
 				countLabel="vídeos"
 			/>
 
@@ -56,8 +51,8 @@ export default function ChannelPage() {
 						<div className="-mt-16 flex flex-col gap-4 sm:flex-row sm:items-end">
 							<div className="relative">
 								<Image
-									src={channel.avatarUrl || "/default-avatar.png"}
-									alt={channel.name}
+									src={channel?.avatarUrl || "/default-avatar.png"}
+									alt={channel?.name || "Avatar do canal"}
 									width={130}
 									height={130}
 									className="
@@ -86,12 +81,12 @@ export default function ChannelPage() {
 											sm:text-3xl
 										"
 									>
-										{channel.name}
+										{channel?.name}
 									</h1>
 								</div>
 
 								<p className="mt-1 text-sm text-muted-foreground">
-									@{channel.username}
+									@{channel?.username}
 								</p>
 
 								<div
@@ -102,35 +97,21 @@ export default function ChannelPage() {
 								>
 									<div className="flex items-center gap-2">
 										<Users className="h-4 w-4 text-primary" />
-										{formatNumber(channel.subscribersCount || 0)} inscritos
+										{formatNumber(channel?.subscribersCount || 0)} inscritos
 									</div>
 
 									<div className="flex items-center gap-2">
 										<PlayCircle className="h-4 w-4 text-primary" />
-										{channel.videos?.length || 0} vídeos
+										{channel?.videos?.length || 0} vídeos
 									</div>
 								</div>
 							</div>
 						</div>
 
-						<div
-							className="
-								flex flex-col gap-3 sm:flex-row
-							"
-						>
-							<Button
-								className="
-									rounded-2xl bg-primary px-6 text-white
-									hover:bg-primary/90
-								"
-							>
-								<BellRing className="mr-2 h-4 w-4" />
-								Inscrito
-							</Button>
-
-							<Button variant="outline" className="rounded-2xl">
-								Compartilhar
-							</Button>
+						<div className="flex flex-col gap-3 sm:flex-row">
+							{channel?.id && (
+								<SubscribeButton channelId={channel.id} isSubscribed={channel.isSubscribed} />
+							)}
 						</div>
 					</div>
 				</div>
@@ -149,7 +130,7 @@ export default function ChannelPage() {
 					</div>
 				</div>
 
-				{channel.videos?.length === 0 ? (
+				{channel?.videos?.length === 0 ? (
 					<div
 						className="
 							flex flex-col items-center justify-center
@@ -184,12 +165,12 @@ export default function ChannelPage() {
 							2xl:grid-cols-4
 						"
 					>
-						{channel.videos?.map((video) => (
+						{channel?.videos?.map((video) => (
 							<VideoCard key={video.id} video={video} />
 						))}
 					</div>
 				)}
 			</div>
-		</div>
+		</QueryBoundary>
 	);
 }

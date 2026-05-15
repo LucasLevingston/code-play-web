@@ -29,7 +29,7 @@ export type User = {
 	likedCommentIds: string[];
 
 	subscriptions: Subscription[];
-
+	subscribersCount: number;
 	subscribers: Subscription[];
 };
 
@@ -40,4 +40,5 @@ export interface Channel {
 	avatarUrl: string;
 	subscribersCount: number;
 	videos?: Video[];
+	isSubscribed?: boolean;
 }
